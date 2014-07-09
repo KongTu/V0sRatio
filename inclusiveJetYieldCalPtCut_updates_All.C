@@ -290,44 +290,58 @@ double la_YieldCal( TH1D* inputHist ){
 
 void inclusiveJetYieldCalPtCut_updates_All(){
 
-    TFile* file = new TFile("~/Desktop/HMTripPb_histo_jetAnalysis_July7_2014.root");
+    TFile* file = new TFile("~/Desktop/HMTripPb_histo_jetAnalysis_Ndepend_July9_2014.root");
 
-    TH1D* ks_mass[10];
-    TH1D* la_mass[10];
-    TH1D* ks_underlying_mass[10];
-    TH1D* la_underlying_mass[10];
+    TH1D* ks_1_underlying_mass[10];
+    TH1D* la_1_underlying_mass[10];
 
+    TH1D* ks_2_underlying_mass[10];
+    TH1D* la_2_underlying_mass[10];
 
+    TH1D* ks_3_underlying_mass[10];
+    TH1D* la_3_underlying_mass[10];
 
     for (int value = 0; value < 10; value++){
 
         stringstream strr;
-        strr << "ana/InvMass_ks";
+        strr << "ana/InvMass_ks_1_underlying";
         strr << value;
 
         stringstream strr1;
-        strr1 << "ana/InvMass_la";
+        strr1 << "ana/InvMass_la_1_underlying";
         strr1 << value;
 
         stringstream strr2;
-        strr2 << "ana/InvMass_ks_underlying";
+        strr2 << "ana/InvMass_ks_2_underlying";
         strr2 << value;
 
         stringstream strr3;
-        strr3 << "ana/InvMass_la_underlying";
+        strr3 << "ana/InvMass_la_2_underlying";
         strr3 << value;
 
-        file->GetObject(strr.str().c_str(),ks_mass[value] );
-        file->GetObject(strr1.str().c_str(),la_mass[value] );
-        file->GetObject(strr2.str().c_str(), ks_underlying_mass[value] );
-        file->GetObject(strr3.str().c_str(), la_underlying_mass[value] );
-    
+        stringstream strr4;
+        strr4 << "ana/InvMass_ks_3_underlying";
+        strr4 << value;
+
+        stringstream strr5;
+        strr5 << "ana/InvMass_la_3_underlying";
+        strr5 << value;
+
+        file->GetObject(strr.str().c_str(), ks_1_underlying_mass[value] );
+        file->GetObject(strr1.str().c_str(), la_1_underlying_mass[value] );
+        file->GetObject(strr2.str().c_str(), ks_2_underlying_mass[value] );
+        file->GetObject(strr3.str().c_str(), la_2_underlying_mass[value] );
+        file->GetObject(strr4.str().c_str(), ks_3_underlying_mass[value] );
+        file->GetObject(strr5.str().c_str(), la_3_underlying_mass[value] );
+        
     }
 
-    float ks_yield[10];
-    float la_yield[10];
-    float ks_underlying_yield[10];
-    float la_underlying_yield[10];
+    float ks_1_underlying_yield[10];
+    float la_1_underlying_yield[10];
+    float ks_2_underlying_yield[10];
+    float la_2_underlying_yield[10];
+    float ks_3_underlying_yield[10];
+    float la_3_underlying_yield[10];
 
     TFile* t1 = new TFile("~/Desktop/Efficiency2D_V0_pPbHijing_counting.root");
     
@@ -336,135 +350,180 @@ void inclusiveJetYieldCalPtCut_updates_All(){
 
 //K0s in jet:
 
-    TCanvas* c1 = new TCanvas();
-    TH1F* h1 = new TH1F();
+    TCanvas* c1_1 = new TCanvas();
+    TH1F* h1_1 = new TH1F();
     
-    c1->Print("ksHist_July8.pdf[");
+    c1_1->Print("ksHist_July9_underlying1.pdf[");
 
     for (int it = 0; it < 10; it++){
 
-        ks_yield[it] = ks_YieldCal( ks_mass[it] );
-        h1->Fill( ks_yield[it] );
-        c1->Print("ksHist_July8.pdf");
+        ks_1_underlying_yield[it] = ks_YieldCal( ks_1_underlying_mass[it] );
+        h1_1->Fill( ks_1_underlying_yield[it] );
+        c1_1->Print("ksHist_July9_underlying1.pdf");
     }
-    c1->Print("ksHist_July8.pdf]");
+    c1_1->Print("ksHist_July9_underlying1.pdf]");
 
 //K0s underlying:
 
-    TCanvas* c1_underlying = new TCanvas();
-    TH1F* h1_underlying = new TH1F();
+    TCanvas* c1_2 = new TCanvas();
+    TH1F* h1_2 = new TH1F();
     
-    c1_underlying->Print("ksHist_July8_underlying.pdf[");
+    c1_2->Print("ksHist_July9_underlying2.pdf[");
 
     for (int ip = 0; ip < 10; ip++){
 
-        ks_underlying_yield[ip] = ks_YieldCal( ks_underlying_mass[ip] );
-        h1_underlying->Fill( ks_underlying_yield[ip] );
-        c1_underlying->Print("ksHist_July8_underlying.pdf");
+        ks_2_underlying_yield[ip] = ks_YieldCal( ks_2_underlying_mass[ip] );
+        h1_2->Fill( ks_2_underlying_yield[ip] );
+        c1_2->Print("ksHist_July9_underlying2.pdf");
     }
-    c1_underlying->Print("ksHist_July8_underlying.pdf]");
+    c1_2->Print("ksHist_July9_underlying2.pdf]");
+
+
+    TCanvas* c1_3 = new TCanvas();
+    TH1F* h1_3 = new TH1F();
+    
+    c1_3->Print("ksHist_July9_underlying3.pdf[");
+
+    for (int ipi = 0; ipi < 10; ipi++){
+
+        ks_3_underlying_yield[ipi] = ks_YieldCal( ks_3_underlying_mass[ipi] );
+        h1_3->Fill( ks_3_underlying_yield[ipi] );
+        c1_3->Print("ksHist_July9_underlying3.pdf");
+    }
+    c1_3->Print("ksHist_July9_underlying3.pdf]");
 
 //Lambda in jet:
 
-    TCanvas* c2 = new TCanvas();
-    TH1F* h2 = new TH1F();
+    TCanvas* c2_1 = new TCanvas();
+    TH1F* h2_1 = new TH1F();
 
-    c2->Print("laHist_July8.pdf[");
+    c2_1->Print("laHist_July9_underlying1.pdf[");
 
     for (int is = 0; is < 10; is++){
 
-        la_yield[is] = la_YieldCal ( la_mass[is] );
-        h2->Fill( la_yield[is] );
-        c2->Print("laHist_July8.pdf");
+        la_1_underlying_yield[is] = la_YieldCal ( la_1_underlying_mass[is] );
+        h2_1->Fill( la_1_underlying_yield[is] );
+        c2_1->Print("laHist_July9_underlying1.pdf");
 
     }
 
-    c2->Print("laHist_July8.pdf]");
+    c2_1->Print("laHist_July9_underlying1.pdf]");
 
-//Lambda underlying:
+    TCanvas* c2_2 = new TCanvas();
+    TH1F* h2_2 = new TH1F();
 
-    TCanvas* c2_underlying = new TCanvas();
-    TH1F* h2_underlying = new TH1F();
+    c2_2->Print("laHist_July9_underlying2.pdf[");
 
-    c2_underlying->Print("laHist_July8_underlying.pdf[");
+    for (int is2 = 0; is2 < 10; is2++){
 
-    for (int iu = 0; iu < 10; iu++){
-
-        la_underlying_yield[iu] = la_YieldCal ( la_underlying_mass[iu] );
-        h2_underlying->Fill( la_underlying_yield[iu] );
-        c2_underlying->Print("laHist_July8_underlying.pdf");
+        la_2_underlying_yield[is2] = la_YieldCal ( la_2_underlying_mass[is2] );
+        h2_2->Fill( la_2_underlying_yield[is2] );
+        c2_2->Print("laHist_July9_underlying2.pdf");
 
     }
 
-    c2_underlying->Print("laHist_July8_underlying.pdf]");
+    c2_2->Print("laHist_July9_underlying2.pdf]");
 
-    ks_yield[0] = ks_yield[0]/(0.0167*(hnew->GetBinContent(105)));
-    ks_yield[1] = ks_yield[1]/(0.0167*(hnew->GetBinContent(180)));
-    ks_yield[2] = ks_yield[2]/(0.0167*(hnew->GetBinContent(250)));
-    ks_yield[3] = ks_yield[3]/(0.0167*(hnew->GetBinContent(330)));
-    ks_yield[4] = ks_yield[4]/(0.0167*(hnew->GetBinContent(440)));
-    ks_yield[5] = ks_yield[5]/(0.0167*(hnew->GetBinContent(570)));
-    ks_yield[6] = ks_yield[6]/(0.0167*(hnew->GetBinContent(570)));
-    ks_yield[7] = ks_yield[7]/(0.0167*(hnew->GetBinContent(570)));
-    ks_yield[8] = ks_yield[8]/(0.0167*(hnew->GetBinContent(570)));
-    ks_yield[9] = ks_yield[9]/(0.0167*(hnew->GetBinContent(570)));
+    TCanvas* c2_3 = new TCanvas();
+    TH1F* h2_3 = new TH1F();
+
+    c2_3->Print("laHist_July9_underlying3.pdf[");
+
+    for (int is3 = 0; is3 < 10; is3++){
+
+        la_3_underlying_yield[is3] = la_YieldCal ( la_3_underlying_mass[is3] );
+        h2_3->Fill( la_3_underlying_yield[is3] );
+        c2_3->Print("laHist_July9_underlying3.pdf");
+
+    }
+
+    c2_3->Print("laHist_July9_underlying3.pdf]");
+
+
+    ks_1_underlying_yield[0] = ks_1_underlying_yield[0]/(0.0167*(hnew->GetBinContent(105)));
+    ks_1_underlying_yield[1] = ks_1_underlying_yield[1]/(0.0167*(hnew->GetBinContent(180)));
+    ks_1_underlying_yield[2] = ks_1_underlying_yield[2]/(0.0167*(hnew->GetBinContent(250)));
+    ks_1_underlying_yield[3] = ks_1_underlying_yield[3]/(0.0167*(hnew->GetBinContent(330)));
+    ks_1_underlying_yield[4] = ks_1_underlying_yield[4]/(0.0167*(hnew->GetBinContent(440)));
+    ks_1_underlying_yield[5] = ks_1_underlying_yield[5]/(0.0167*(hnew->GetBinContent(570)));
+    ks_1_underlying_yield[6] = ks_1_underlying_yield[6]/(0.0167*(hnew->GetBinContent(570)));
+    ks_1_underlying_yield[7] = ks_1_underlying_yield[7]/(0.0167*(hnew->GetBinContent(570)));
+    ks_1_underlying_yield[8] = ks_1_underlying_yield[8]/(0.0167*(hnew->GetBinContent(570)));
+    ks_1_underlying_yield[9] = ks_1_underlying_yield[9]/(0.0167*(hnew->GetBinContent(570)));
     
-    la_yield[0] = la_yield[0]/(0.0167*(hnew2->GetBinContent(105)));
-    la_yield[1] = la_yield[1]/(0.0167*(hnew2->GetBinContent(180)));
-    la_yield[2] = la_yield[2]/(0.0167*(hnew2->GetBinContent(250)));
-    la_yield[3] = la_yield[3]/(0.0167*(hnew2->GetBinContent(330)));
-    la_yield[4] = la_yield[4]/(0.0167*(hnew2->GetBinContent(440)));
-    la_yield[5] = la_yield[5]/(0.0167*(hnew2->GetBinContent(570)));
-    la_yield[6] = la_yield[6]/(0.0167*(hnew2->GetBinContent(570)));
-    la_yield[7] = la_yield[7]/(0.0167*(hnew2->GetBinContent(570)));
-    la_yield[8] = la_yield[8]/(0.0167*(hnew2->GetBinContent(570)));
-    la_yield[9] = la_yield[9]/(0.0167*(hnew2->GetBinContent(570)));
+    la_1_underlying_yield[0] = la_1_underlying_yield[0]/(0.0167*(hnew2->GetBinContent(105)));
+    la_1_underlying_yield[1] = la_1_underlying_yield[1]/(0.0167*(hnew2->GetBinContent(180)));
+    la_1_underlying_yield[2] = la_1_underlying_yield[2]/(0.0167*(hnew2->GetBinContent(250)));
+    la_1_underlying_yield[3] = la_1_underlying_yield[3]/(0.0167*(hnew2->GetBinContent(330)));
+    la_1_underlying_yield[4] = la_1_underlying_yield[4]/(0.0167*(hnew2->GetBinContent(440)));
+    la_1_underlying_yield[5] = la_1_underlying_yield[5]/(0.0167*(hnew2->GetBinContent(570)));
+    la_1_underlying_yield[6] = la_1_underlying_yield[6]/(0.0167*(hnew2->GetBinContent(570)));
+    la_1_underlying_yield[7] = la_1_underlying_yield[7]/(0.0167*(hnew2->GetBinContent(570)));
+    la_1_underlying_yield[8] = la_1_underlying_yield[8]/(0.0167*(hnew2->GetBinContent(570)));
+    la_1_underlying_yield[9] = la_1_underlying_yield[9]/(0.0167*(hnew2->GetBinContent(570)));
 
 
-    ks_underlying_yield[0] = ks_underlying_yield[0]/(0.0167*(hnew->GetBinContent(105)));
-    ks_underlying_yield[1] = ks_underlying_yield[1]/(0.0167*(hnew->GetBinContent(180)));
-    ks_underlying_yield[2] = ks_underlying_yield[2]/(0.0167*(hnew->GetBinContent(250)));
-    ks_underlying_yield[3] = ks_underlying_yield[3]/(0.0167*(hnew->GetBinContent(330)));
-    ks_underlying_yield[4] = ks_underlying_yield[4]/(0.0167*(hnew->GetBinContent(440)));
-    ks_underlying_yield[5] = ks_underlying_yield[5]/(0.0167*(hnew->GetBinContent(570)));
-    ks_underlying_yield[6] = ks_underlying_yield[6]/(0.0167*(hnew->GetBinContent(570)));
-    ks_underlying_yield[7] = ks_underlying_yield[7]/(0.0167*(hnew->GetBinContent(570)));
-    ks_underlying_yield[8] = ks_underlying_yield[8]/(0.0167*(hnew->GetBinContent(570)));
-    ks_underlying_yield[9] = ks_underlying_yield[9]/(0.0167*(hnew->GetBinContent(570)));
+    ks_2_underlying_yield[0] = ks_2_underlying_yield[0]/(0.0167*(hnew->GetBinContent(105)));
+    ks_2_underlying_yield[1] = ks_2_underlying_yield[1]/(0.0167*(hnew->GetBinContent(180)));
+    ks_2_underlying_yield[2] = ks_2_underlying_yield[2]/(0.0167*(hnew->GetBinContent(250)));
+    ks_2_underlying_yield[3] = ks_2_underlying_yield[3]/(0.0167*(hnew->GetBinContent(330)));
+    ks_2_underlying_yield[4] = ks_2_underlying_yield[4]/(0.0167*(hnew->GetBinContent(440)));
+    ks_2_underlying_yield[5] = ks_2_underlying_yield[5]/(0.0167*(hnew->GetBinContent(570)));
+    ks_2_underlying_yield[6] = ks_2_underlying_yield[6]/(0.0167*(hnew->GetBinContent(570)));
+    ks_2_underlying_yield[7] = ks_2_underlying_yield[7]/(0.0167*(hnew->GetBinContent(570)));
+    ks_2_underlying_yield[8] = ks_2_underlying_yield[8]/(0.0167*(hnew->GetBinContent(570)));
+    ks_2_underlying_yield[9] = ks_2_underlying_yield[9]/(0.0167*(hnew->GetBinContent(570)));
     
-    la_underlying_yield[0] = la_underlying_yield[0]/(0.0167*(hnew2->GetBinContent(105)));
-    la_underlying_yield[1] = la_underlying_yield[1]/(0.0167*(hnew2->GetBinContent(180)));
-    la_underlying_yield[2] = la_underlying_yield[2]/(0.0167*(hnew2->GetBinContent(250)));
-    la_underlying_yield[3] = la_underlying_yield[3]/(0.0167*(hnew2->GetBinContent(330)));
-    la_underlying_yield[4] = la_underlying_yield[4]/(0.0167*(hnew2->GetBinContent(440)));
-    la_underlying_yield[5] = la_underlying_yield[5]/(0.0167*(hnew2->GetBinContent(570)));
-    la_underlying_yield[6] = la_underlying_yield[6]/(0.0167*(hnew2->GetBinContent(570)));
-    la_underlying_yield[7] = la_underlying_yield[7]/(0.0167*(hnew2->GetBinContent(570)));
-    la_underlying_yield[8] = la_underlying_yield[8]/(0.0167*(hnew2->GetBinContent(570)));
-    la_underlying_yield[9] = la_underlying_yield[9]/(0.0167*(hnew2->GetBinContent(570)));
+    la_2_underlying_yield[0] = la_2_underlying_yield[0]/(0.0167*(hnew2->GetBinContent(105)));
+    la_2_underlying_yield[1] = la_2_underlying_yield[1]/(0.0167*(hnew2->GetBinContent(180)));
+    la_2_underlying_yield[2] = la_2_underlying_yield[2]/(0.0167*(hnew2->GetBinContent(250)));
+    la_2_underlying_yield[3] = la_2_underlying_yield[3]/(0.0167*(hnew2->GetBinContent(330)));
+    la_2_underlying_yield[4] = la_2_underlying_yield[4]/(0.0167*(hnew2->GetBinContent(440)));
+    la_2_underlying_yield[5] = la_2_underlying_yield[5]/(0.0167*(hnew2->GetBinContent(570)));
+    la_2_underlying_yield[6] = la_2_underlying_yield[6]/(0.0167*(hnew2->GetBinContent(570)));
+    la_2_underlying_yield[7] = la_2_underlying_yield[7]/(0.0167*(hnew2->GetBinContent(570)));
+    la_2_underlying_yield[8] = la_2_underlying_yield[8]/(0.0167*(hnew2->GetBinContent(570)));
+    la_2_underlying_yield[9] = la_2_underlying_yield[9]/(0.0167*(hnew2->GetBinContent(570)));
+
+    ks_3_underlying_yield[0] = ks_3_underlying_yield[0]/(0.0167*(hnew->GetBinContent(105)));
+    ks_3_underlying_yield[1] = ks_3_underlying_yield[1]/(0.0167*(hnew->GetBinContent(180)));
+    ks_3_underlying_yield[2] = ks_3_underlying_yield[2]/(0.0167*(hnew->GetBinContent(250)));
+    ks_3_underlying_yield[3] = ks_3_underlying_yield[3]/(0.0167*(hnew->GetBinContent(330)));
+    ks_3_underlying_yield[4] = ks_3_underlying_yield[4]/(0.0167*(hnew->GetBinContent(440)));
+    ks_3_underlying_yield[5] = ks_3_underlying_yield[5]/(0.0167*(hnew->GetBinContent(570)));
+    ks_3_underlying_yield[6] = ks_3_underlying_yield[6]/(0.0167*(hnew->GetBinContent(570)));
+    ks_3_underlying_yield[7] = ks_3_underlying_yield[7]/(0.0167*(hnew->GetBinContent(570)));
+    ks_3_underlying_yield[8] = ks_3_underlying_yield[8]/(0.0167*(hnew->GetBinContent(570)));
+    ks_3_underlying_yield[9] = ks_3_underlying_yield[9]/(0.0167*(hnew->GetBinContent(570)));
+    
+    la_3_underlying_yield[0] = la_3_underlying_yield[0]/(0.0167*(hnew2->GetBinContent(105)));
+    la_3_underlying_yield[1] = la_3_underlying_yield[1]/(0.0167*(hnew2->GetBinContent(180)));
+    la_3_underlying_yield[2] = la_3_underlying_yield[2]/(0.0167*(hnew2->GetBinContent(250)));
+    la_3_underlying_yield[3] = la_3_underlying_yield[3]/(0.0167*(hnew2->GetBinContent(330)));
+    la_3_underlying_yield[4] = la_3_underlying_yield[4]/(0.0167*(hnew2->GetBinContent(440)));
+    la_3_underlying_yield[5] = la_3_underlying_yield[5]/(0.0167*(hnew2->GetBinContent(570)));
+    la_3_underlying_yield[6] = la_3_underlying_yield[6]/(0.0167*(hnew2->GetBinContent(570)));
+    la_3_underlying_yield[7] = la_3_underlying_yield[7]/(0.0167*(hnew2->GetBinContent(570)));
+    la_3_underlying_yield[8] = la_3_underlying_yield[8]/(0.0167*(hnew2->GetBinContent(570)));
+    la_3_underlying_yield[9] = la_3_underlying_yield[9]/(0.0167*(hnew2->GetBinContent(570)));
 
 //Lambda/K0s ratio
-
-    for (int i = 0; i < 10; i++){
-
-        cout << "let's see K0short yield " << i << ": " << ks_yield[i] << endl;
-        cout << "let's ses K0short underlying yield" << i << ": " << ks_underlying_yield[i] << endl;
-        cout << "let's see Lambda yield " << i << ": " << la_yield[i] << endl;
-        cout << "let's see Lambda underlying yield" << i << ": " << la_underlying_yield[i] << endl;
-    
-    }
 
     double ptbins[] = {0.7,1.0,1.4,1.8,2.2,2.8,3.6,4.6,6.0,9.0,12.0};
 
     TH1F* h3 = new TH1F("h3","h3",10,ptbins);
     TH1F* h4 = new TH1F("h4","h4",10,ptbins);
+    TH1F* h5 = new TH1F("h5","h5",10,ptbins);
 
     for (int y = 0; y < 10; y++){
 
-        float temp = la_yield[y]/( 2 * ks_yield[y] );
-        float temp1 = la_underlying_yield[y]/( 2 * ks_underlying_yield[y] );
-        h3->SetBinContent(y+1,temp );
-        h4->SetBinContent(y+1,temp1 );
+        float temp0 = la_1_underlying_yield[y]/( 2 * ks_1_underlying_yield[y] );
+        float temp1 = la_2_underlying_yield[y]/( 2 * ks_2_underlying_yield[y] );
+        float temp2 = la_3_underlying_yield[y]/( 2 * ks_3_underlying_yield[y] );
+           
+            h3->SetBinContent(y+1,temp0 );
+            h4->SetBinContent(y+1,temp1 );
+            h5->SetBinContent(y+1,temp2 );
 
     }
 
@@ -480,12 +539,17 @@ void inclusiveJetYieldCalPtCut_updates_All(){
     h4->SetMarkerColor(kBlue);
     h4->SetAxisRange(0,1,"Y");
 
+    h5->SetMarkerStyle(21);
+    h5->SetAxisRange(0,1,"Y");
+
     TLegend *w1 = new TLegend(0.25,0.4,0.5,0.5);
-    w1->AddEntry(h3,"Inside Jet V0s");
-    w1->AddEntry(h4,"All V0s");
+    w1->AddEntry(h3,"150 < N^{offline}_{trk} < 185");
+    w1->AddEntry(h4,"185 < N^{offline}_{trk} < 220");
+    w1->AddEntry(h5,"220 < N^{offline}_{trk} < 260");
     
     h3->Draw("P");
     h4->Draw("Psame");
+    h5->Draw("Psame");
     w1->Draw("same");
 
 
