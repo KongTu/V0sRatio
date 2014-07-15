@@ -290,7 +290,11 @@ double la_YieldCal( TH1D* inputHist ){
 
 void inclusiveJetYieldCalPtCut_updates_All(){
 
-    TFile* file = new TFile("~/Desktop/HMTripPb_histo_jetAnalysis_4Ndepend_July9_2014.root");
+/**
+ * MB sample, with Ntrk > 50; 4 bins:
+ */
+
+    TFile* file = new TFile("~/2014Research/ROOT_file/V0reco_pPb_histo/MBpPb_histo_underlying_July15_2014.root");
 
     TH1D* ks_0_underlying_mass[10];
     TH1D* la_0_underlying_mass[10];
@@ -349,6 +353,71 @@ void inclusiveJetYieldCalPtCut_updates_All(){
         
     }
 
+
+/**
+ * HM trigger data: Ntrk > 120; 4 bins
+ */
+
+    TFile* file1 = new TFile("~/2014Research/ROOT_file/V0reco_pPb_histo/HMTripPb_histo_jetAnalysis_4Ndepend_July9_2014.root");
+
+    TH1D* ks_4_underlying_mass[10];
+    TH1D* la_4_underlying_mass[10];
+
+    TH1D* ks_5_underlying_mass[10];
+    TH1D* la_5_underlying_mass[10];
+
+    TH1D* ks_6_underlying_mass[10];
+    TH1D* la_6_underlying_mass[10];
+
+    TH1D* ks_7_underlying_mass[10];
+    TH1D* la_7_underlying_mass[10];
+
+    for (int value = 0; value < 10; value++){
+
+        stringstream HMstrr0;
+        HMstrr0 << "ana/InvMass_ks_0_underlying";
+        HMstrr0 << value;
+
+        stringstream HMstrr_la;
+        HMstrr_la << "ana/InvMass_la_0_underlying";
+        HMstrr_la << value;
+
+        stringstream HMstrr;
+        HMstrr << "ana/InvMass_ks_1_underlying";
+        HMstrr << value;
+
+        stringstream HMstrr1;
+        HMstrr1 << "ana/InvMass_la_1_underlying";
+        HMstrr1 << value;
+
+        stringstream HMstrr2;
+        HMstrr2 << "ana/InvMass_ks_2_underlying";
+        HMstrr2 << value;
+
+        stringstream HMstrr3;
+        HMstrr3 << "ana/InvMass_la_2_underlying";
+        HMstrr3 << value;
+
+        stringstream HMstrr4;
+        HMstrr4 << "ana/InvMass_ks_3_underlying";
+        HMstrr4 << value;
+
+        stringstream HMstrr5;
+        HMstrr5 << "ana/InvMass_la_3_underlying";
+        HMstrr5 << value;
+
+        file1->GetObject(HMstrr0.str().c_str(), ks_4_underlying_mass[value] );
+        file1->GetObject(HMstrr_la.str().c_str(), la_4_underlying_mass[value] );
+        file1->GetObject(HMstrr.str().c_str(), ks_5_underlying_mass[value] );
+        file1->GetObject(HMstrr1.str().c_str(), la_5_underlying_mass[value] );
+        file1->GetObject(HMstrr2.str().c_str(), ks_6_underlying_mass[value] );
+        file1->GetObject(HMstrr3.str().c_str(), la_6_underlying_mass[value] );
+        file1->GetObject(HMstrr4.str().c_str(), ks_7_underlying_mass[value] );
+        file1->GetObject(HMstrr5.str().c_str(), la_7_underlying_mass[value] );
+
+    }
+
+
     float ks_0_underlying_yield[10];
     float la_0_underlying_yield[10];
     float ks_1_underlying_yield[10];
@@ -357,6 +426,15 @@ void inclusiveJetYieldCalPtCut_updates_All(){
     float la_2_underlying_yield[10];
     float ks_3_underlying_yield[10];
     float la_3_underlying_yield[10];
+
+    float ks_4_underlying_yield[10];
+    float la_4_underlying_yield[10];
+    float ks_5_underlying_yield[10];
+    float la_5_underlying_yield[10];
+    float ks_6_underlying_yield[10];
+    float la_6_underlying_yield[10];
+    float ks_7_underlying_yield[10];
+    float la_7_underlying_yield[10];
 
     TFile* t1 = new TFile("~/Desktop/Efficiency2D_V0_pPbHijing_counting.root");
     
@@ -368,125 +446,242 @@ void inclusiveJetYieldCalPtCut_updates_All(){
     TCanvas* c1_0 = new TCanvas();
     TH1F* h1_0 = new TH1F();
     
-    c1_0->Print("ksHist_July10_underlying0.pdf[");
+    c1_0->Print("ksHist_July15MB1_underlying0.pdf[");
 
     for (int ik = 0; ik < 10; ik++){
 
         ks_0_underlying_yield[ik] = ks_YieldCal( ks_0_underlying_mass[ik] );
         h1_0->Fill( ks_0_underlying_yield[ik] );
-        c1_0->Print("ksHist_July10_underlying0.pdf");
+        c1_0->Print("ksHist_July15MB1_underlying0.pdf");
     }
-    c1_0->Print("ksHist_July10_underlying0.pdf]");
+    c1_0->Print("ksHist_July15MB1_underlying0.pdf]");
 
     TCanvas* c1_1 = new TCanvas();
     TH1F* h1_1 = new TH1F();
     
-    c1_1->Print("ksHist_July10_underlying1.pdf[");
+    c1_1->Print("ksHist_July15MB1_underlying1.pdf[");
 
     for (int it = 0; it < 10; it++){
 
         ks_1_underlying_yield[it] = ks_YieldCal( ks_1_underlying_mass[it] );
         h1_1->Fill( ks_1_underlying_yield[it] );
-        c1_1->Print("ksHist_July10_underlying1.pdf");
+        c1_1->Print("ksHist_July15MB1_underlying1.pdf");
     }
-    c1_1->Print("ksHist_July10_underlying1.pdf]");
+    c1_1->Print("ksHist_July15MB1_underlying1.pdf]");
 
 //K0s underlying:
 
     TCanvas* c1_2 = new TCanvas();
     TH1F* h1_2 = new TH1F();
     
-    c1_2->Print("ksHist_July10_underlying2.pdf[");
+    c1_2->Print("ksHist_July15MB1_underlying2.pdf[");
 
     for (int ip = 0; ip < 10; ip++){
 
         ks_2_underlying_yield[ip] = ks_YieldCal( ks_2_underlying_mass[ip] );
         h1_2->Fill( ks_2_underlying_yield[ip] );
-        c1_2->Print("ksHist_July10_underlying2.pdf");
+        c1_2->Print("ksHist_July15MB1_underlying2.pdf");
     }
-    c1_2->Print("ksHist_July10_underlying2.pdf]");
+    c1_2->Print("ksHist_July15MB1_underlying2.pdf]");
 
 
     TCanvas* c1_3 = new TCanvas();
     TH1F* h1_3 = new TH1F();
     
-    c1_3->Print("ksHist_July10_underlying3.pdf[");
+    c1_3->Print("ksHist_July15MB1_underlying3.pdf[");
 
     for (int ipi = 0; ipi < 10; ipi++){
 
         ks_3_underlying_yield[ipi] = ks_YieldCal( ks_3_underlying_mass[ipi] );
         h1_3->Fill( ks_3_underlying_yield[ipi] );
-        c1_3->Print("ksHist_July10_underlying3.pdf");
+        c1_3->Print("ksHist_July15MB1_underlying3.pdf");
     }
-    c1_3->Print("ksHist_July10_underlying3.pdf]");
+    c1_3->Print("ksHist_July15MB1_underlying3.pdf]");
+
+
+    TCanvas* c1_4 = new TCanvas();
+    TH1F* h1_4 = new TH1F();
+    
+    c1_4->Print("ksHist_July15HM1_underlying4.pdf[");
+
+    for (int ip1 = 0; ip1 < 10; ip1++){
+
+        ks_4_underlying_yield[ip1] = ks_YieldCal( ks_4_underlying_mass[ip1] );
+        h1_4->Fill( ks_4_underlying_yield[ip1] );
+        c1_4->Print("ksHist_July15HM1_underlying4.pdf");
+    }
+    c1_4->Print("ksHist_July15HM1_underlying4.pdf]");
+
+
+    TCanvas* c1_5 = new TCanvas();
+    TH1F* h1_5 = new TH1F();
+    
+    c1_5->Print("ksHist_July15HM1_underlying5.pdf[");
+
+    for (int ip2 = 0; ip2 < 10; ip2++){
+
+        ks_5_underlying_yield[ip2] = ks_YieldCal( ks_5_underlying_mass[ip2] );
+        h1_5->Fill( ks_5_underlying_yield[ip2] );
+        c1_5->Print("ksHist_July15HM1_underlying5.pdf");
+    }
+    c1_5->Print("ksHist_July15HM1_underlying5.pdf]");
+
+
+    TCanvas* c1_6 = new TCanvas();
+    TH1F* h1_6 = new TH1F();
+    
+    c1_6->Print("ksHist_July15HM1_underlying6.pdf[");
+
+    for (int ip3 = 0; ip3 < 10; ip3++){
+
+        ks_6_underlying_yield[ip3] = ks_YieldCal( ks_6_underlying_mass[ip3] );
+        h1_6->Fill( ks_6_underlying_yield[ip3] );
+        c1_6->Print("ksHist_July15HM1_underlying6.pdf");
+    }
+    c1_6->Print("ksHist_July15HM1_underlying6.pdf]");
+
+
+    TCanvas* c1_7 = new TCanvas();
+    TH1F* h1_7 = new TH1F();
+    
+    c1_7->Print("ksHist_July15HM1_underlying7.pdf[");
+
+    for (int ip4 = 0; ip4 < 10; ip4++){
+
+        ks_7_underlying_yield[ip4] = ks_YieldCal( ks_7_underlying_mass[ip4] );
+        h1_7->Fill( ks_7_underlying_yield[ip4] );
+        c1_7->Print("ksHist_July15HM1_underlying7.pdf");
+    }
+    c1_7->Print("ksHist_July15HM1_underlying7.pdf]");
 
 
 
 
-//Lambda in jet:
+//Lambda:
 
 
     TCanvas* c2_0 = new TCanvas();
     TH1F* h2_0 = new TH1F();
 
-    c2_0->Print("laHist_July10_underlying0.pdf[");
+    c2_0->Print("laHist_July15HM1_underlying0.pdf[");
 
     for (int ie = 0; ie < 10; ie++){
 
         la_0_underlying_yield[ie] = la_YieldCal ( la_0_underlying_mass[ie] );
         h2_0->Fill( la_0_underlying_yield[ie] );
-        c2_0->Print("laHist_July10_underlying0.pdf");
+        c2_0->Print("laHist_July15HM1_underlying0.pdf");
 
     }
 
-    c2_0->Print("laHist_July10_underlying0.pdf]");
+    c2_0->Print("laHist_July15HM1_underlying0.pdf]");
 
     TCanvas* c2_1 = new TCanvas();
     TH1F* h2_1 = new TH1F();
 
-    c2_1->Print("laHist_July10_underlying1.pdf[");
+    c2_1->Print("laHist_July15HM1_underlying1.pdf[");
 
     for (int is = 0; is < 10; is++){
 
         la_1_underlying_yield[is] = la_YieldCal ( la_1_underlying_mass[is] );
         h2_1->Fill( la_1_underlying_yield[is] );
-        c2_1->Print("laHist_July10_underlying1.pdf");
+        c2_1->Print("laHist_July15HM1_underlying1.pdf");
 
     }
 
-    c2_1->Print("laHist_July10_underlying1.pdf]");
+    c2_1->Print("laHist_July15HM1_underlying1.pdf]");
 
     TCanvas* c2_2 = new TCanvas();
     TH1F* h2_2 = new TH1F();
 
-    c2_2->Print("laHist_July10_underlying2.pdf[");
+    c2_2->Print("laHist_July15HM1_underlying2.pdf[");
 
     for (int is2 = 0; is2 < 10; is2++){
 
         la_2_underlying_yield[is2] = la_YieldCal ( la_2_underlying_mass[is2] );
         h2_2->Fill( la_2_underlying_yield[is2] );
-        c2_2->Print("laHist_July10_underlying2.pdf");
+        c2_2->Print("laHist_July15HM1_underlying2.pdf");
 
     }
 
-    c2_2->Print("laHist_July10_underlying2.pdf]");
+    c2_2->Print("laHist_July15HM1_underlying2.pdf]");
 
     TCanvas* c2_3 = new TCanvas();
     TH1F* h2_3 = new TH1F();
 
-    c2_3->Print("laHist_July10_underlying3.pdf[");
+    c2_3->Print("laHist_July15HM1_underlying3.pdf[");
 
     for (int is3 = 0; is3 < 10; is3++){
 
         la_3_underlying_yield[is3] = la_YieldCal ( la_3_underlying_mass[is3] );
         h2_3->Fill( la_3_underlying_yield[is3] );
-        c2_3->Print("laHist_July10_underlying3.pdf");
+        c2_3->Print("laHist_July15HM1_underlying3.pdf");
 
     }
 
-    c2_3->Print("laHist_July10_underlying3.pdf]");
+    c2_3->Print("laHist_July15HM1_underlying3.pdf]");
 
 
+
+
+    TCanvas* c2_4 = new TCanvas();
+    TH1F* h2_4 = new TH1F();
+
+    c2_4->Print("laHist_July15HM1_underlying4.pdf[");
+
+    for (int is4 = 0; is4 < 10; is4++){
+
+        la_4_underlying_yield[is4] = la_YieldCal ( la_4_underlying_mass[is4] );
+        h2_4->Fill( la_4_underlying_yield[is4] );
+        c2_4->Print("laHist_July15HM1_underlying4.pdf");
+
+    }
+
+    c2_4->Print("laHist_July15HM1_underlying4.pdf]");
+
+    TCanvas* c2_5 = new TCanvas();
+    TH1F* h2_5 = new TH1F();
+
+    c2_5->Print("laHist_July15HM1_underlying5.pdf[");
+
+    for (int is5 = 0; is5 < 10; is5++){
+
+        la_5_underlying_yield[is5] = la_YieldCal ( la_5_underlying_mass[is5] );
+        h2_5->Fill( la_5_underlying_yield[is5] );
+        c2_5->Print("laHist_July15HM1_underlying5.pdf");
+
+    }
+
+    c2_5->Print("laHist_July15HM1_underlying5.pdf]");
+
+    TCanvas* c2_6 = new TCanvas();
+    TH1F* h2_6 = new TH1F();
+
+    c2_6->Print("laHist_July15HM1_underlying6.pdf[");
+
+    for (int is6 = 0; is6 < 10; is6++){
+
+        la_6_underlying_yield[is6] = la_YieldCal ( la_6_underlying_mass[is6] );
+        h2_6->Fill( la_6_underlying_yield[is6] );
+        c2_6->Print("laHist_July15HM1_underlying6.pdf");
+
+    }
+
+    c2_6->Print("laHist_July15HM1_underlying6.pdf]");
+
+    TCanvas* c2_7 = new TCanvas();
+    TH1F* h2_7 = new TH1F();
+
+    c2_7->Print("laHist_July15HM1_underlying7.pdf[");
+
+    for (int is7 = 0; is7 < 10; is7++){
+
+        la_7_underlying_yield[is7] = la_YieldCal ( la_7_underlying_mass[is7] );
+        h2_7->Fill( la_7_underlying_yield[is7] );
+        c2_7->Print("laHist_July15HM1_underlying7.pdf");
+
+    }
+
+    c2_7->Print("laHist_July15HM1_underlying7.pdf]");
 
 
     ks_0_underlying_yield[0] = ks_0_underlying_yield[0]/(0.0167*(hnew->GetBinContent(105)));
@@ -578,14 +773,108 @@ void inclusiveJetYieldCalPtCut_updates_All(){
     la_3_underlying_yield[8] = la_3_underlying_yield[8]/(0.0167*(hnew2->GetBinContent(570)));
     la_3_underlying_yield[9] = la_3_underlying_yield[9]/(0.0167*(hnew2->GetBinContent(570)));
 
+    ks_4_underlying_yield[0] = ks_4_underlying_yield[0]/(0.0167*(hnew->GetBinContent(105)));
+    ks_4_underlying_yield[1] = ks_4_underlying_yield[1]/(0.0167*(hnew->GetBinContent(180)));
+    ks_4_underlying_yield[2] = ks_4_underlying_yield[2]/(0.0167*(hnew->GetBinContent(250)));
+    ks_4_underlying_yield[3] = ks_4_underlying_yield[3]/(0.0167*(hnew->GetBinContent(330)));
+    ks_4_underlying_yield[4] = ks_4_underlying_yield[4]/(0.0167*(hnew->GetBinContent(440)));
+    ks_4_underlying_yield[5] = ks_4_underlying_yield[5]/(0.0167*(hnew->GetBinContent(570)));
+    ks_4_underlying_yield[6] = ks_4_underlying_yield[6]/(0.0167*(hnew->GetBinContent(570)));
+    ks_4_underlying_yield[7] = ks_4_underlying_yield[7]/(0.0167*(hnew->GetBinContent(570)));
+    ks_4_underlying_yield[8] = ks_4_underlying_yield[8]/(0.0167*(hnew->GetBinContent(570)));
+    ks_4_underlying_yield[9] = ks_4_underlying_yield[9]/(0.0167*(hnew->GetBinContent(570)));
+    
+    la_4_underlying_yield[0] = la_4_underlying_yield[0]/(0.0167*(hnew2->GetBinContent(105)));
+    la_4_underlying_yield[1] = la_4_underlying_yield[1]/(0.0167*(hnew2->GetBinContent(180)));
+    la_4_underlying_yield[2] = la_4_underlying_yield[2]/(0.0167*(hnew2->GetBinContent(250)));
+    la_4_underlying_yield[3] = la_4_underlying_yield[3]/(0.0167*(hnew2->GetBinContent(330)));
+    la_4_underlying_yield[4] = la_4_underlying_yield[4]/(0.0167*(hnew2->GetBinContent(440)));
+    la_4_underlying_yield[5] = la_4_underlying_yield[5]/(0.0167*(hnew2->GetBinContent(570)));
+    la_4_underlying_yield[6] = la_4_underlying_yield[6]/(0.0167*(hnew2->GetBinContent(570)));
+    la_4_underlying_yield[7] = la_4_underlying_yield[7]/(0.0167*(hnew2->GetBinContent(570)));
+    la_4_underlying_yield[8] = la_4_underlying_yield[8]/(0.0167*(hnew2->GetBinContent(570)));
+    la_4_underlying_yield[9] = la_4_underlying_yield[9]/(0.0167*(hnew2->GetBinContent(570)));
+
+    ks_5_underlying_yield[0] = ks_5_underlying_yield[0]/(0.0167*(hnew->GetBinContent(105)));
+    ks_5_underlying_yield[1] = ks_5_underlying_yield[1]/(0.0167*(hnew->GetBinContent(180)));
+    ks_5_underlying_yield[2] = ks_5_underlying_yield[2]/(0.0167*(hnew->GetBinContent(250)));
+    ks_5_underlying_yield[3] = ks_5_underlying_yield[3]/(0.0167*(hnew->GetBinContent(330)));
+    ks_5_underlying_yield[4] = ks_5_underlying_yield[4]/(0.0167*(hnew->GetBinContent(440)));
+    ks_5_underlying_yield[5] = ks_5_underlying_yield[5]/(0.0167*(hnew->GetBinContent(570)));
+    ks_5_underlying_yield[6] = ks_5_underlying_yield[6]/(0.0167*(hnew->GetBinContent(570)));
+    ks_5_underlying_yield[7] = ks_5_underlying_yield[7]/(0.0167*(hnew->GetBinContent(570)));
+    ks_5_underlying_yield[8] = ks_5_underlying_yield[8]/(0.0167*(hnew->GetBinContent(570)));
+    ks_5_underlying_yield[9] = ks_5_underlying_yield[9]/(0.0167*(hnew->GetBinContent(570)));
+    
+    la_5_underlying_yield[0] = la_5_underlying_yield[0]/(0.0167*(hnew2->GetBinContent(105)));
+    la_5_underlying_yield[1] = la_5_underlying_yield[1]/(0.0167*(hnew2->GetBinContent(180)));
+    la_5_underlying_yield[2] = la_5_underlying_yield[2]/(0.0167*(hnew2->GetBinContent(250)));
+    la_5_underlying_yield[3] = la_5_underlying_yield[3]/(0.0167*(hnew2->GetBinContent(330)));
+    la_5_underlying_yield[4] = la_5_underlying_yield[4]/(0.0167*(hnew2->GetBinContent(440)));
+    la_5_underlying_yield[5] = la_5_underlying_yield[5]/(0.0167*(hnew2->GetBinContent(570)));
+    la_5_underlying_yield[6] = la_5_underlying_yield[6]/(0.0167*(hnew2->GetBinContent(570)));
+    la_5_underlying_yield[7] = la_5_underlying_yield[7]/(0.0167*(hnew2->GetBinContent(570)));
+    la_5_underlying_yield[8] = la_5_underlying_yield[8]/(0.0167*(hnew2->GetBinContent(570)));
+    la_5_underlying_yield[9] = la_5_underlying_yield[9]/(0.0167*(hnew2->GetBinContent(570)));
+
+
+    ks_6_underlying_yield[0] = ks_6_underlying_yield[0]/(0.0167*(hnew->GetBinContent(105)));
+    ks_6_underlying_yield[1] = ks_6_underlying_yield[1]/(0.0167*(hnew->GetBinContent(180)));
+    ks_6_underlying_yield[2] = ks_6_underlying_yield[2]/(0.0167*(hnew->GetBinContent(250)));
+    ks_6_underlying_yield[3] = ks_6_underlying_yield[3]/(0.0167*(hnew->GetBinContent(330)));
+    ks_6_underlying_yield[4] = ks_6_underlying_yield[4]/(0.0167*(hnew->GetBinContent(440)));
+    ks_6_underlying_yield[5] = ks_6_underlying_yield[5]/(0.0167*(hnew->GetBinContent(570)));
+    ks_6_underlying_yield[6] = ks_6_underlying_yield[6]/(0.0167*(hnew->GetBinContent(570)));
+    ks_6_underlying_yield[7] = ks_6_underlying_yield[7]/(0.0167*(hnew->GetBinContent(570)));
+    ks_6_underlying_yield[8] = ks_6_underlying_yield[8]/(0.0167*(hnew->GetBinContent(570)));
+    ks_6_underlying_yield[9] = ks_6_underlying_yield[9]/(0.0167*(hnew->GetBinContent(570)));
+    
+    la_6_underlying_yield[0] = la_6_underlying_yield[0]/(0.0167*(hnew2->GetBinContent(105)));
+    la_6_underlying_yield[1] = la_6_underlying_yield[1]/(0.0167*(hnew2->GetBinContent(180)));
+    la_6_underlying_yield[2] = la_6_underlying_yield[2]/(0.0167*(hnew2->GetBinContent(250)));
+    la_6_underlying_yield[3] = la_6_underlying_yield[3]/(0.0167*(hnew2->GetBinContent(330)));
+    la_6_underlying_yield[4] = la_6_underlying_yield[4]/(0.0167*(hnew2->GetBinContent(440)));
+    la_6_underlying_yield[5] = la_6_underlying_yield[5]/(0.0167*(hnew2->GetBinContent(570)));
+    la_6_underlying_yield[6] = la_6_underlying_yield[6]/(0.0167*(hnew2->GetBinContent(570)));
+    la_6_underlying_yield[7] = la_6_underlying_yield[7]/(0.0167*(hnew2->GetBinContent(570)));
+    la_6_underlying_yield[8] = la_6_underlying_yield[8]/(0.0167*(hnew2->GetBinContent(570)));
+    la_6_underlying_yield[9] = la_6_underlying_yield[9]/(0.0167*(hnew2->GetBinContent(570)));
+
+    ks_7_underlying_yield[0] = ks_7_underlying_yield[0]/(0.0167*(hnew->GetBinContent(105)));
+    ks_7_underlying_yield[1] = ks_7_underlying_yield[1]/(0.0167*(hnew->GetBinContent(180)));
+    ks_7_underlying_yield[2] = ks_7_underlying_yield[2]/(0.0167*(hnew->GetBinContent(250)));
+    ks_7_underlying_yield[3] = ks_7_underlying_yield[3]/(0.0167*(hnew->GetBinContent(330)));
+    ks_7_underlying_yield[4] = ks_7_underlying_yield[4]/(0.0167*(hnew->GetBinContent(440)));
+    ks_7_underlying_yield[5] = ks_7_underlying_yield[5]/(0.0167*(hnew->GetBinContent(570)));
+    ks_7_underlying_yield[6] = ks_7_underlying_yield[6]/(0.0167*(hnew->GetBinContent(570)));
+    ks_7_underlying_yield[7] = ks_7_underlying_yield[7]/(0.0167*(hnew->GetBinContent(570)));
+    ks_7_underlying_yield[8] = ks_7_underlying_yield[8]/(0.0167*(hnew->GetBinContent(570)));
+    ks_7_underlying_yield[9] = ks_7_underlying_yield[9]/(0.0167*(hnew->GetBinContent(570)));
+    
+    la_7_underlying_yield[0] = la_7_underlying_yield[0]/(0.0167*(hnew2->GetBinContent(105)));
+    la_7_underlying_yield[1] = la_7_underlying_yield[1]/(0.0167*(hnew2->GetBinContent(180)));
+    la_7_underlying_yield[2] = la_7_underlying_yield[2]/(0.0167*(hnew2->GetBinContent(250)));
+    la_7_underlying_yield[3] = la_7_underlying_yield[3]/(0.0167*(hnew2->GetBinContent(330)));
+    la_7_underlying_yield[4] = la_7_underlying_yield[4]/(0.0167*(hnew2->GetBinContent(440)));
+    la_7_underlying_yield[5] = la_7_underlying_yield[5]/(0.0167*(hnew2->GetBinContent(570)));
+    la_7_underlying_yield[6] = la_7_underlying_yield[6]/(0.0167*(hnew2->GetBinContent(570)));
+    la_7_underlying_yield[7] = la_7_underlying_yield[7]/(0.0167*(hnew2->GetBinContent(570)));
+    la_7_underlying_yield[8] = la_7_underlying_yield[8]/(0.0167*(hnew2->GetBinContent(570)));
+    la_7_underlying_yield[9] = la_7_underlying_yield[9]/(0.0167*(hnew2->GetBinContent(570)));
+
 //Lambda/K0s ratio
 
     double ptbins[] = {0.7,1.0,1.4,1.8,2.2,2.8,3.6,4.6,6.0,9.0,12.0};
 
-    TH1F* h3 = new TH1F("h3","h3",10,ptbins);
+    TH1F* h3 = new TH1F("h3","#Lambda/K^{0}_{s} in pPb (HM+MB) sample1 (1/3 statistics)",10,ptbins);
     TH1F* h4 = new TH1F("h4","h4",10,ptbins);
     TH1F* h5 = new TH1F("h5","h5",10,ptbins);
     TH1F* h6 = new TH1F("h6","h6",10,ptbins);
+
+    TH1F* h7 = new TH1F("h3","h3",10,ptbins);
+    TH1F* h8 = new TH1F("h4","h4",10,ptbins);
+    TH1F* h9 = new TH1F("h5","h5",10,ptbins);
+    TH1F* h10 = new TH1F("h6","h6",10,ptbins);
 
     for (int y = 0; y < 10; y++){
 
@@ -594,43 +883,80 @@ void inclusiveJetYieldCalPtCut_updates_All(){
         float temp2 = la_2_underlying_yield[y]/( 2 * ks_2_underlying_yield[y] );
         float temp3 = la_3_underlying_yield[y]/( 2 * ks_3_underlying_yield[y] );
 
+        float temp4 = la_4_underlying_yield[y]/( 2 * ks_4_underlying_yield[y] );
+        float temp5 = la_5_underlying_yield[y]/( 2 * ks_5_underlying_yield[y] );
+        float temp6 = la_6_underlying_yield[y]/( 2 * ks_6_underlying_yield[y] );
+        float temp7 = la_7_underlying_yield[y]/( 2 * ks_7_underlying_yield[y] );
+
             h3->SetBinContent(y+1,temp0 );
             h4->SetBinContent(y+1,temp1 );
             h5->SetBinContent(y+1,temp2 );
             h6->SetBinContent(y+1,temp3 );
 
+            h7->SetBinContent(y+1,temp4 );
+            h8->SetBinContent(y+1,temp5 );
+            h9->SetBinContent(y+1,temp6 );
+            h10->SetBinContent(y+1,temp7 );
+
+
     }
 
     TCanvas* c3 = new TCanvas();
-    h3->SetMarkerStyle(21);
+    h3->SetMarkerStyle(22);
     h3->SetMarkerColor(kRed);
     h3->SetAxisRange(0,1,"Y");
     h3->SetXTitle("P^{}_{T,V0}(GeV/c)");
-    h3->SetYTitle("#Events");
+    h3->SetYTitle("#Lambda+#bar{#Lambda}/2K^{0}_{s}");
     h3->SetStats(kFALSE);
     
-    h4->SetMarkerStyle(21);
-    h4->SetMarkerColor(kBlue);
+        h4->SetMarkerStyle(22);
+    h4->SetMarkerColor(kOrange);
     h4->SetAxisRange(0,1,"Y");
 
-    h5->SetMarkerStyle(21);
+        h5->SetMarkerStyle(22);
     h5->SetAxisRange(0,1,"Y");
+    h5->SetMarkerColor(kYellow);
 
-    h6->SetMarkerStyle(21);
+        h6->SetMarkerStyle(22);
     h6->SetAxisRange(0,1,"Y");
     h6->SetMarkerColor(kGreen);
 
+       h7->SetMarkerStyle(22);
+    h7->SetAxisRange(0,1,"Y");
+    h7->SetMarkerColor(kCyan);
+
+       h8->SetMarkerStyle(22);
+    h8->SetAxisRange(0,1,"Y");
+    h8->SetMarkerColor(kBlue);
+
+       h9->SetMarkerStyle(22);
+    h9->SetAxisRange(0,1,"Y");
+    h9->SetMarkerColor(kMagenta);
+
+       h10->SetMarkerStyle(22);
+    h10->SetAxisRange(0,1,"Y");
+    h10->SetMarkerColor(kBlack);
+
 
     TLegend *w1 = new TLegend(0.25,0.4,0.5,0.5);
-    w1->AddEntry(h3,"120 < N^{offline}_{trk} < 150");
-    w1->AddEntry(h4,"150 < N^{offline}_{trk} < 185");
-    w1->AddEntry(h5,"185 < N^{offline}_{trk} < 220");
-    w1->AddEntry(h6,"220 < N^{offline}_{trk} < 260");
+    w1->AddEntry(h3,"50 < N^{offline}_{trk} < 60");
+    w1->AddEntry(h4,"60 < N^{offline}_{trk} < 80");
+    w1->AddEntry(h5,"80 < N^{offline}_{trk} < 100");
+    w1->AddEntry(h6,"100 < N^{offline}_{trk} < 120");
+    w1->AddEntry(h7,"120 < N^{offline}_{trk} < 150");
+    w1->AddEntry(h8,"150 < N^{offline}_{trk} < 185");
+    w1->AddEntry(h9,"185 < N^{offline}_{trk} < 220");
+    w1->AddEntry(h10,"220 < N^{offline}_{trk} < 260");
     
     h3->Draw("P");
     h4->Draw("Psame");
     h5->Draw("Psame");
     h6->Draw("Psame");
+    h7->Draw("Psame");
+    h8->Draw("Psame");
+    h9->Draw("Psame");
+    h10->Draw("Psame");
+
     w1->Draw("same");
 
 
