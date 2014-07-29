@@ -29,7 +29,7 @@ void plotSpectraRatio(){
 
 	gStyle->SetErrorX(0);
 
-	TFile* file1 = new TFile("./HMbins.root");
+	TFile* file1 = new TFile("./HMbins_pTEffCorr.root");
 
 	TH1D* ksSpectra[9];
 	TH1D* laSpectra[9];
@@ -42,42 +42,98 @@ void plotSpectraRatio(){
 		HistName.str("");
 		HistName << "ksSpectra_";
 		HistName << it+1;
-			ksSpectra[it] = (TH1D*)file1->Get( HistName.str().c_str() );
+			ksSpectra[it+4] = (TH1D*)file1->Get( HistName.str().c_str() );
 
 		HistName.str("");
 		HistName << "laSpectra_";
 		HistName << it+1;
-			laSpectra[it] = (TH1D*)file1->Get( HistName.str().c_str() );
+			laSpectra[it+4] = (TH1D*)file1->Get( HistName.str().c_str() );
 
 		HistName.str("");
 		HistName << "ratioHist_";
 		HistName << it+1;
-			ratioHist[it] = (TH1D*)file1->Get( HistName.str().c_str() );
+			ratioHist[it+4] = (TH1D*)file1->Get( HistName.str().c_str() );
 
 	}
 
-	TFile* file2 = new TFile("./MBbins.root");
+	TFile* file2 = new TFile("./MBbins_pTEffCorr.root");
 
 	for (it = 0; it < 4; it++){
 
 		HistName.str("");
 		HistName << "ksSpectra_";
 		HistName << it+1;
-			ksSpectra[it+5] = (TH1D*)file2->Get( HistName.str().c_str() );
+			ksSpectra[it] = (TH1D*)file2->Get( HistName.str().c_str() );
 
 		HistName.str("");
 		HistName << "laSpectra_";
 		HistName << it+1;
-			laSpectra[it+5] = (TH1D*)file2->Get( HistName.str().c_str() );
+			laSpectra[it] = (TH1D*)file2->Get( HistName.str().c_str() );
 
 		HistName.str("");
 		HistName << "ratioHist_";
 		HistName << it+1;
-			ratioHist[it+5] = (TH1D*)file2->Get( HistName.str().c_str() );
+			ratioHist[it] = (TH1D*)file2->Get( HistName.str().c_str() );
 
 	}
 
+
+    TLatex* ratio[9];
+    ratio[0] = new TLatex(1.65,0.14,"0 < N^{offline}_{trk} < 35");
+    ratio[1] = new TLatex(1.65,0.14,"35 < N^{offline}_{trk} < 60");
+    ratio[2] = new TLatex(1.65,0.14,"60 < N^{offline}_{trk} < 90");
+    ratio[3] = new TLatex(1.65,0.14,"90 < N^{offline}_{trk} < 120");
+    ratio[4] = new TLatex(1.65,0.14,"120 < N^{offline}_{trk} < 150");
+    ratio[5] = new TLatex(1.65,0.14,"150 < N^{offline}_{trk} < 185");
+    ratio[6] = new TLatex(1.65,0.14,"185 < N^{offline}_{trk} < 220");
+    ratio[7] = new TLatex(1.65,0.14,"220 < N^{offline}_{trk} < 260");
+    ratio[8] = new TLatex(1.65,0.14,"N^{offline}_{trk} > 260");
+
+    //TLatex* YTtile = new TLatex(1.65,1.2,"#Lambda/K^{0}_{s}");
+    //YTtile->SetTextSize(0.06);
+/*
 	TCanvas* c1 = new TCanvas();
+    gStyle->SetOptTitle(0);
+    gStyle->SetPadBorderMode(0);
+    gStyle->SetTitleX(0.15);
+    
+
+        c1->Divide(3,3,0,0);
+
+        for (it = 0; it < 9; it++){
+
+            c1->cd(it+1);
+            gPad->SetTicks();
+
+            ratioHist[it]->SetStats(kFALSE);
+            ratioHist[it]->GetXaxis()->SetTitleOffset(1.0);
+            ratioHist[it]->GetYaxis()->SetTitleOffset(1.0);
+            ratioHist[it]->GetXaxis()->SetTitleSize(0.05);
+            ratioHist[it]->GetYaxis()->SetTitleSize(0.05);
+            ratioHist[it]->GetXaxis()->SetLabelSize(0.06);
+            ratioHist[it]->GetYaxis()->SetLabelSize(0.06);
+
+            ratioHist[it]->SetYTitle("#Lambda+#bar{#Lambda}/2K^{0}_{s}");
+            ratioHist[it]->SetXTitle("P^{}_{T,V0}(GeV/c)");
+            ratioHist[it]->SetMarkerStyle(24);
+            ratioHist[it]->SetMarkerSize(1.2);
+            ratioHist[it]->SetMarkerColor(kBlue);
+            ratioHist[it]->GetYaxis()->SetRangeUser(0,1.5);
+        
+                ratioHist[it]->Draw("P");
+                ratio[it]->SetTextSize(0.06);
+                ratio[it]->Draw("same");
+                YTtile->Draw("same");
+
+        }
+*/
+    //c1->cd(1);
+    //r5->Draw("same");
+
+    
+    TCanvas* y1 = new TCanvas();
+    gPad->SetTicks();
+
 
 	TLatex* r1 = new TLatex(5.5,52,"CMS,p-Pb 2013");
 		r1->SetTextSize(0.04);
@@ -92,60 +148,58 @@ void plotSpectraRatio(){
 	TLatex* r5 = new TLatex(1.65,0.14,"#Lambda/K^{0}_{s}");
 		r5->SetTextSize(0.07);
 
-		gPad->SetTicks();
-
 
     TLegend *w1 = new TLegend(0.25,0.4,0.5,0.5);
     w1->SetLineColor(kWhite);
-    w1->AddEntry(ksSpectra[5],"0  < N^{offline}_{trk} < 35");
-    w1->AddEntry(ksSpectra[6],"35  < N^{offline}_{trk} < 60");
-    w1->AddEntry(ksSpectra[7],"60  < N^{offline}_{trk} < 90");
-    w1->AddEntry(ksSpectra[8],"90  < N^{offline}_{trk} < 120");
-    w1->AddEntry(ksSpectra[0],"120 < N^{offline}_{trk} < 150");
-    w1->AddEntry(ksSpectra[1],"150 < N^{offline}_{trk} < 185");
-    w1->AddEntry(ksSpectra[2],"185 < N^{offline}_{trk} < 220");
-    w1->AddEntry(ksSpectra[3],"220 < N^{offline}_{trk} < 260");
-    w1->AddEntry(ksSpectra[4]," 	N^{offline}_{trk} > 260");
+    w1->AddEntry(ksSpectra[0],"0  < N^{offline}_{trk} < 35");
+    w1->AddEntry(ksSpectra[1],"35  < N^{offline}_{trk} < 60");
+    w1->AddEntry(ksSpectra[2],"60  < N^{offline}_{trk} < 90");
+    w1->AddEntry(ksSpectra[3],"90  < N^{offline}_{trk} < 120");
+    w1->AddEntry(ksSpectra[4],"120 < N^{offline}_{trk} < 150");
+    w1->AddEntry(ksSpectra[5],"150 < N^{offline}_{trk} < 185");
+    w1->AddEntry(ksSpectra[6],"185 < N^{offline}_{trk} < 220");
+    w1->AddEntry(ksSpectra[7],"220 < N^{offline}_{trk} < 260");
+    w1->AddEntry(ksSpectra[8]," 	N^{offline}_{trk} > 260");
 
     ksSpectra[5]->SetMarkerColor(6);
     ksSpectra[5]->SetMarkerStyle(22);
     ksSpectra[5]->SetLineColor(6);
-    ksSpectra[5]->Scale(1);
+    ksSpectra[5]->Scale(32);
 
     ksSpectra[6]->SetMarkerColor(7);
     ksSpectra[6]->SetLineColor(7);
     ksSpectra[6]->SetMarkerStyle(22);
-    ksSpectra[6]->Scale(2);
+    ksSpectra[6]->Scale(64);
 
     ksSpectra[7]->SetMarkerColor(8);
     ksSpectra[7]->SetLineColor(8);
     ksSpectra[7]->SetMarkerStyle(22);
-    ksSpectra[7]->Scale(4);
+    ksSpectra[7]->Scale(128);
 
     ksSpectra[8]->SetMarkerColor(9);
     ksSpectra[8]->SetLineColor(9);
     ksSpectra[8]->SetMarkerStyle(22);
-    ksSpectra[8]->Scale(8);
+    ksSpectra[8]->Scale(256);
 
     ksSpectra[0]->SetMarkerColor(1);
     ksSpectra[0]->SetMarkerStyle(22);
     ksSpectra[0]->SetLineColor(1);
-    ksSpectra[0]->Scale(16);
+    ksSpectra[0]->Scale(1);
 
     ksSpectra[1]->SetMarkerColor(2);
     ksSpectra[1]->SetLineColor(2);
     ksSpectra[1]->SetMarkerStyle(22);
-    ksSpectra[1]->Scale(32);
+    ksSpectra[1]->Scale(2);
 
     ksSpectra[2]->SetMarkerColor(3);
     ksSpectra[2]->SetLineColor(3);
     ksSpectra[2]->SetMarkerStyle(22);
-    ksSpectra[2]->Scale(64);
+    ksSpectra[2]->Scale(4);
 
     ksSpectra[3]->SetMarkerColor(4);
     ksSpectra[3]->SetLineColor(4);
     ksSpectra[3]->SetMarkerStyle(22);
-    ksSpectra[3]->Scale(128);
+    ksSpectra[3]->Scale(8);
 
     ksSpectra[4]->SetMarkerColor(kYellow-3);
     ksSpectra[4]->SetLineColor(kYellow-3);
@@ -154,7 +208,7 @@ void plotSpectraRatio(){
     ksSpectra[4]->SetYTitle("1/N^{}_{ev}1/(2#PiP^{}_{T}d^{2}N/(dP^{}_{T}d#eta) [(GeV/c)^{-2}]");
     ksSpectra[4]->SetAxisRange(0,9,"X");
     ksSpectra[4]->SetStats(kFALSE);
-    ksSpectra[4]->Scale(256);
+    ksSpectra[4]->Scale(16);
 
     ksSpectra[4]->GetYaxis()->SetRangeUser(0.0000001,1000);
     ksSpectra[4]->GetXaxis()->SetRangeUser(0,9);
@@ -182,42 +236,42 @@ void plotSpectraRatio(){
     laSpectra[5]->SetMarkerColor(6);
     laSpectra[5]->SetLineColor(6);
     laSpectra[5]->SetMarkerStyle(22);
-    laSpectra[5]->Scale(1);
+    laSpectra[5]->Scale(32);
 
     laSpectra[6]->SetMarkerColor(7);
     laSpectra[6]->SetLineColor(7);
     laSpectra[6]->SetMarkerStyle(22);
-    laSpectra[6]->Scale(2);
+    laSpectra[6]->Scale(64);
 
     laSpectra[7]->SetMarkerColor(8);
     laSpectra[7]->SetLineColor(8);
     laSpectra[7]->SetMarkerStyle(22);
-    laSpectra[7]->Scale(4);
+    laSpectra[7]->Scale(128);
 
     laSpectra[8]->SetMarkerColor(9);
     laSpectra[8]->SetLineColor(9);
     laSpectra[8]->SetMarkerStyle(22);
-    laSpectra[8]->Scale(8);
+    laSpectra[8]->Scale(256);
 
     laSpectra[0]->SetMarkerColor(1);
     laSpectra[0]->SetLineColor(1);
     laSpectra[0]->SetMarkerStyle(22);
-    laSpectra[0]->Scale(16);
+    laSpectra[0]->Scale(1);
 
     laSpectra[1]->SetMarkerColor(2);
     laSpectra[1]->SetLineColor(2);
     laSpectra[1]->SetMarkerStyle(22);
-    laSpectra[1]->Scale(32);
+    laSpectra[1]->Scale(2);
 
     laSpectra[2]->SetMarkerColor(3);
     laSpectra[2]->SetLineColor(3);
     laSpectra[2]->SetMarkerStyle(22);
-    laSpectra[2]->Scale(64);
+    laSpectra[2]->Scale(4);
 
     laSpectra[3]->SetMarkerColor(4);
     laSpectra[3]->SetLineColor(4);
     laSpectra[3]->SetMarkerStyle(22);
-    laSpectra[3]->Scale(128);
+    laSpectra[3]->Scale(8);
 
     laSpectra[4]->SetMarkerColor(kYellow-3);
     laSpectra[4]->SetLineColor(kYellow-3);
@@ -226,7 +280,7 @@ void plotSpectraRatio(){
     laSpectra[4]->SetYTitle("1/N^{}_{ev}1/(2#PiP^{}_{T}d^{2}N/(dP^{}_{T}d#eta) [(GeV/c)^{-2}]");
     laSpectra[4]->SetAxisRange(0,9,"X");
     laSpectra[4]->SetStats(kFALSE);
-    laSpectra[4]->Scale(256);
+    laSpectra[4]->Scale(16);
 
     laSpectra[4]->GetYaxis()->SetRangeUser(0.0000001,1000);
     laSpectra[4]->GetXaxis()->SetRangeUser(0,9);
@@ -299,10 +353,6 @@ void plotSpectraRatio(){
     r11->Draw("same");
     r22->Draw("same");
     r5->Draw("same");
-
-
-
-
 
 
 
