@@ -9,7 +9,7 @@ using namespace RooFit;
 void histoSpectraRatio(){
 
     gStyle->SetErrorX(0);
-    gStyle->SetTitle(" ");
+
 /*
 Getting the 3D histograms, and store in a 1D 3dimentional histogram:
  */
@@ -36,50 +36,26 @@ Getting the 3D histograms, and store in a 1D 3dimentional histogram:
     TFile* file5 = new TFile("~/2014Research/ROOT_file/V0reco_pPb_3Dhisto/HMpPb_HM5_July22_2014.root");
     ksHist[4] = (TH3D*)file5->Get("ana/InvMass_ks_underlying");
     laHist[4] = (TH3D*)file5->Get("ana/InvMass_la_underlying");
-
-    TFile* file6 = new TFile("~/2014Research/ROOT_file/V0reco_pPb_3Dhisto/MBpPb_MB1_July23_2014.root");
-    ksHist[5] = (TH3D*)file5->Get("ana/InvMass_ks_underlying");
-    laHist[5] = (TH3D*)file5->Get("ana/InvMass_la_underlying");
-
-    TFile* file7 = new TFile("~/2014Research/ROOT_file/V0reco_pPb_3Dhisto/MBpPb_MB2_July23_2014.root");
-    ksHist[6] = (TH3D*)file5->Get("ana/InvMass_ks_underlying");
-    laHist[6] = (TH3D*)file5->Get("ana/InvMass_la_underlying");
-
-    TFile* file8 = new TFile("~/2014Research/ROOT_file/V0reco_pPb_3Dhisto/MBpPb_MB3_July23_2014.root");
-    ksHist[7] = (TH3D*)file5->Get("ana/InvMass_ks_underlying");
-    laHist[7] = (TH3D*)file5->Get("ana/InvMass_la_underlying");
-
-    TFile* file9 = new TFile("~/2014Research/ROOT_file/V0reco_pPb_3Dhisto/MBpPb_MB4_July23_2014.root");
-    ksHist[8] = (TH3D*)file5->Get("ana/InvMass_ks_underlying");
-    laHist[8] = (TH3D*)file5->Get("ana/InvMass_la_underlying");
  
    
-   double ks_norm[9];
-   double la_norm[9];
+   double ks_norm[5];
+   double la_norm[5];
 
         ks_norm[0] = ksHist[0]->GetEntries();
         ks_norm[1] = ksHist[1]->GetEntries();
         ks_norm[2] = ksHist[2]->GetEntries();
         ks_norm[3] = ksHist[3]->GetEntries();
         ks_norm[4] = ksHist[4]->GetEntries();
-        ks_norm[5] = ksHist[5]->GetEntries();
-        ks_norm[6] = ksHist[6]->GetEntries();
-        ks_norm[7] = ksHist[7]->GetEntries();
-        ks_norm[8] = ksHist[8]->GetEntries();
 
         la_norm[0] = laHist[0]->GetEntries();
         la_norm[1] = laHist[1]->GetEntries();
         la_norm[2] = laHist[2]->GetEntries();
         la_norm[3] = laHist[3]->GetEntries();
         la_norm[4] = laHist[4]->GetEntries();
-        la_norm[5] = laHist[5]->GetEntries();
-        la_norm[6] = laHist[6]->GetEntries();
-        la_norm[7] = laHist[7]->GetEntries();
-        la_norm[8] = laHist[8]->GetEntries();
 
 
-    TH1D* ks_HM[9][6][20];
-    TH1D* la_HM[9][6][20];
+    TH1D* ks_HM[5][6][20];
+    TH1D* la_HM[5][6][20];
 
     double pTbinsBound[21] = {6,8,10,12,14,16,18,20,22,24,26,28,30,34,38,42,46,50,56,66,90};
 
@@ -119,7 +95,6 @@ Getting the 3D histograms, and store in a 1D 3dimentional histogram:
 ****************************************
 */
 
-
 /**
  * Getting efficiency from the table:
  */
@@ -137,22 +112,19 @@ Getting the 3D histograms, and store in a 1D 3dimentional histogram:
 
         for (int r = 0; r < 20; r++){
 
-            ks_eff[i][r] = hnew1->GetBinContent(i+1,r+3);
-            la_eff[i][r] = hnew2->GetBinContent(i+1,r+3);
+            ks_eff[i][r] = hnew1->GetBinContent(i+1,r+2);
+            la_eff[i][r] = hnew2->GetBinContent(i+1,r+2);
 
         }
     }
 
-/*
-****************************************
- */
 
 /*
 Start to fit all histograms to obtain the eff_corr yields:
  */
 
-    double ks_HM_yield[9][6][20];
-    double la_HM_yield[9][6][20];
+    double ks_HM_yield[5][6][20];
+    double la_HM_yield[5][6][20];
 
     for (mult = 0; mult < 5; mult++){
         
@@ -174,8 +146,8 @@ Start to fit all histograms to obtain the eff_corr yields:
 *****************************************
  */
 
-    double ks_HM_pTyield[9][20];
-    double la_HM_pTyield[9][20];
+    double ks_HM_pTyield[5][20];
+    double la_HM_pTyield[5][20];
 
     for (mult = 0; mult < 5; mult++){
 
@@ -199,9 +171,9 @@ Start to fit all histograms to obtain the eff_corr yields:
     double ptbins[] = {0.6,0.8,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0,3.4,3.8,4.2,4.6,5.0,5.6,6.6,9.0};
     double binwidth[20] = {0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.4,0.4,0.4,0.4,0.4,0.6,1.0,1.4};
 
-    TH1D* ksSpectra[9];
-    TH1D* laSpectra[9];
-    TH1D* ratioHist[9];
+    TH1D* ksSpectra[5];
+    TH1D* laSpectra[5];
+    TH1D* ratioHist[5];
 
     stringstream ratioHistName;
 
@@ -224,37 +196,34 @@ Start to fit all histograms to obtain the eff_corr yields:
         laSpectra[mult] = new TH1D(laHistName.str().c_str(),laHistName.str().c_str(),20,ptbins);
         ratioHist[mult] = new TH1D(ratioHistName.str().c_str(),ratioHistName.str().c_str(),20,ptbins);
         
+        double etarange = 4.8;
+
         for (pt = 0; pt < 20; pt++){
 
-            double ks_temp = (ks_HM_pTyield[mult][pt]/binwidth[pt])/(2*3.1415926*ptbins[pt+1]*4.8*ks_norm[mult]);
-            double la_temp = (la_HM_pTyield[mult][pt]/binwidth[pt])/(2*3.1415926*ptbins[pt+1]*4.8*la_norm[mult]);
+            double ks_temp = (ks_HM_pTyield[mult][pt]/binwidth[pt])/(2*3.1415926*ptbins[pt+1]*etarange*ks_norm[mult]);
+            double la_temp = (la_HM_pTyield[mult][pt]/binwidth[pt])/(2*3.1415926*ptbins[pt+1]*etarange*la_norm[mult]);
 
             ksSpectra[mult]->SetBinContent(pt+1, ks_temp );
-            ksSpectra[mult]->SetBinError(pt+1, sqrt((ks_HM_pTyield[mult][pt]/binwidth[pt]))/(2*3.1415926*ptbins[pt+1]*4.8*ks_norm[mult]));
+            ksSpectra[mult]->SetBinError(pt+1, sqrt((ks_HM_pTyield[mult][pt]/binwidth[pt]))/(2*3.1415926*ptbins[pt+1]*etarange*ks_norm[mult]));
 
             laSpectra[mult]->SetBinContent(pt+1, la_temp );
-            laSpectra[mult]->SetBinError(pt+1, sqrt((la_HM_pTyield[mult][pt]/binwidth[pt]))/(2*3.1415926*ptbins[pt+1]*4.8*la_norm[mult]));
+            laSpectra[mult]->SetBinError(pt+1, sqrt((la_HM_pTyield[mult][pt]/binwidth[pt]))/(2*3.1415926*ptbins[pt+1]*etarange*la_norm[mult]));
 
             ratioHist[mult]->SetBinContent(pt+1, la_HM_pTyield[mult][pt]/(2*ks_HM_pTyield[mult][pt]));
             double err = errorCal( (la_HM_pTyield[mult][pt]/binwidth[pt]), (ks_HM_pTyield[mult][pt]/binwidth[pt]) );
             ratioHist[mult]->SetBinError(pt+1, err );
         }
 
-        cout << "last pT bins KS: " << ks_HM_pTyield[mult][pt-1] << endl;
-
-        cout << "last pT bins LA: " << la_HM_pTyield[mult][pt-1] << endl;
-
-        cout << "last pT bins ratio: " << la_HM_pTyield[mult][pt-1]/(2*ks_HM_pTyield[mult][pt-1]) << endl;
     }
 
 
-            TFile f1("HMbins_2D_alleta_wei_EffCorr_check.root","new");
-            for( int you = 0; you < 5; you++){
+    TFile f1("HMbins.root","new");
+    for( int you = 0; you < 5; you++){
 
-                ksSpectra[you]->Write();
-                laSpectra[you]->Write();
-                ratioHist[you]->Write();
-            }
+        ksSpectra[you]->Write();
+        laSpectra[you]->Write();
+        ratioHist[you]->Write();
+    }
         
 
 
