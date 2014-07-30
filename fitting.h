@@ -43,8 +43,8 @@ float Mass_ks(float px_1,float py_1,float pz_1,float px_2,float py_2,float pz_2)
 {
        
 	float temp = 0.0;
-        float E1 = sqrt((px_1*px_1+py_1*py_1+pz_1*pz_1)+(0.13957*0.13957));
-        float E2 = sqrt((px_2*px_2+py_2*py_2+pz_2*pz_2)+(0.93827*0.93827));
+        float E1 = sqrt((px_1*px_1+py_1*py_1+pz_1*pz_1)+(0.93827*0.93827));
+        float E2 = sqrt((px_2*px_2+py_2*py_2+pz_2*pz_2)+(0.13957*0.13957));
         float E_tot = E1+E2;
 	temp = (E_tot*E_tot) - ((px_1+px_2)*(px_1+px_2)+(py_1+py_2)*(py_1+py_2)+(pz_1+pz_2)*(pz_1+pz_2));
 	return sqrt(temp);
