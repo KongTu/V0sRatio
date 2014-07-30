@@ -175,6 +175,8 @@ Start to fit all histograms to obtain the eff_corr yields:
 
     stringstream ratioHistName;
 
+    double etarange = 4.8;
+
     for (mult = 0; mult < 4; mult++){
        
         ksHistName.str("");
@@ -196,37 +198,30 @@ Start to fit all histograms to obtain the eff_corr yields:
         
         for (pt = 0; pt < 20; pt++){
 
-            double ks_temp = (ks_MB_pTyield[mult][pt]/binwidth[pt])/(2*3.1415926*ptbins[pt+1]*4.8*ks_norm[mult]);
-            double la_temp = (la_MB_pTyield[mult][pt]/binwidth[pt])/(2*3.1415926*ptbins[pt+1]*4.8*la_norm[mult]);
+            double ks_temp = (ks_MB_pTyield[mult][pt]/binwidth[pt])/(2*3.1415926*ptbins[pt+1]*etarange*ks_norm[mult]);
+            double la_temp = (la_MB_pTyield[mult][pt]/binwidth[pt])/(2*3.1415926*ptbins[pt+1]*etarange*la_norm[mult]);
 
             ksSpectra[mult]->SetBinContent(pt+1, ks_temp );
-            ksSpectra[mult]->SetBinError(pt+1, sqrt((ks_MB_pTyield[mult][pt]/binwidth[pt]))/(2*3.1415926*ptbins[pt+1]*4.8*ks_norm[mult]));
+            ksSpectra[mult]->SetBinError(pt+1, sqrt((ks_MB_pTyield[mult][pt]/binwidth[pt]))/(2*3.1415926*ptbins[pt+1]*etarange*ks_norm[mult]));
 
             laSpectra[mult]->SetBinContent(pt+1, la_temp );
-            laSpectra[mult]->SetBinError(pt+1, sqrt((la_MB_pTyield[mult][pt]/binwidth[pt]))/(2*3.1415926*ptbins[pt+1]*4.8*la_norm[mult]));
+            laSpectra[mult]->SetBinError(pt+1, sqrt((la_MB_pTyield[mult][pt]/binwidth[pt]))/(2*3.1415926*ptbins[pt+1]*etarange*la_norm[mult]));
 
             ratioHist[mult]->SetBinContent(pt+1, la_MB_pTyield[mult][pt]/(2*ks_MB_pTyield[mult][pt]));
             double err = errorCal( (la_MB_pTyield[mult][pt]/binwidth[pt]), (ks_MB_pTyield[mult][pt]/binwidth[pt]) );
             ratioHist[mult]->SetBinError(pt+1, err );
         }
 
-        cout << "pt: " << pt << endl;
-
-        cout << "last pT bins KS: " << ks_MB_pTyield[mult][pt-1] << endl;
-
-        cout << "last pT bins LA: " << la_MB_pTyield[mult][pt-1] << endl;
-
-        cout << "last pT bins ratio: " << la_MB_pTyield[mult][pt-1]/(2*ks_MB_pTyield[mult][pt-1]) << endl;
     }
 
-            TFile f2("MBbins_2D_alleta_wei_EffCorr_check.root","new");
-            for (int you = 0; you < 4; you++){
+    TFile f2("MBbins.root","new");
+        for (int you = 0; you < 4; you++){
 
-                ksSpectra[you]->Write();
-                laSpectra[you]->Write();
-                ratioHist[you]->Write();
-            }
+            ksSpectra[you]->Write();
+            laSpectra[you]->Write();
+            ratioHist[you]->Write();
+        }
 
 
-        
-}
+
+    }
