@@ -1,29 +1,6 @@
-#include <iostream>
-#include <sstream>
-#include "TTree.h"
-#include "TFile.h"
-#include "TCanvas.h"
-#include "TSystem.h"
-#include "TROOT.h"
-#include <vector>
-#include "TString.h"
-#include "TF1.h"
-#include "TH1.h"
-#include "TMath.h"
-
-#include "TGraph.h"
-#include "TGraphErrors.h"
-#include "TMultiGraph.h"
-#include "TCanvas.h"
-#include "TPad.h"
-#include "TLegend.h"
-#include "TLatex.h"
-#include "TLine.h"
-#include "TAxis.h"
-
+#include "fitting.h"
 
 using namespace std;
-
 
 void plotSpectraRatio(){
 
@@ -77,7 +54,6 @@ void plotSpectraRatio(){
 
 	}
 
-
     TLatex* ratio[9];
     ratio[0] = new TLatex(1.65,0.14,"0 < N^{offline}_{trk} < 35");
     ratio[1] = new TLatex(1.65,0.14,"35 < N^{offline}_{trk} < 60");
@@ -89,8 +65,12 @@ void plotSpectraRatio(){
     ratio[7] = new TLatex(1.65,0.14,"220 < N^{offline}_{trk} < 260");
     ratio[8] = new TLatex(1.65,0.14,"N^{offline}_{trk} > 260");
 
-    //TLatex* YTtile = new TLatex(1.65,1.2,"#Lambda/K^{0}_{s}");
-    //YTtile->SetTextSize(0.06);
+    TLatex* YTtile = new TLatex(1.65,1.2,"#Lambda/K^{0}_{s}");
+    YTtile->SetTextSize(0.06);
+
+/**
+ * plotting ratio in multipanel:
+ */
 /*
 	TCanvas* c1 = new TCanvas();
     gStyle->SetOptTitle(0);
@@ -127,27 +107,21 @@ void plotSpectraRatio(){
 
         }
 */
-    //c1->cd(1);
-    //r5->Draw("same");
 
-    
+
     TCanvas* y1 = new TCanvas();
-    gPad->SetTicks();
-
+        gPad->SetTicks();
 
 	TLatex* r1 = new TLatex(5.5,52,"CMS,p-Pb 2013");
 		r1->SetTextSize(0.04);
 	TLatex* r2 = new TLatex(5.5,15,"-2.4 < #eta < 2.4");
 		r2->SetTextSize(0.04);
-
 	TLatex* r3 = new TLatex(0.8,0.000001,"K^{0}_{s}");
 		r3->SetTextSize(0.07);
-
 	TLatex* r4 = new TLatex(0.8,0.000001,"#Lambda+#bar{#Lambda}");
 		r4->SetTextSize(0.07);
 	TLatex* r5 = new TLatex(1.65,0.14,"#Lambda/K^{0}_{s}");
 		r5->SetTextSize(0.07);
-
 
     TLegend *w1 = new TLegend(0.25,0.4,0.5,0.5);
     w1->SetLineColor(kWhite);
@@ -353,7 +327,6 @@ void plotSpectraRatio(){
     r11->Draw("same");
     r22->Draw("same");
     r5->Draw("same");
-
 
 
 
