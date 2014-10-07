@@ -10,7 +10,7 @@ void eposClosureTestRapidity(){
 
 	gStyle->SetErrorX(0);
 
-	TFile* file = new TFile("~/2014Research/ROOT_file/V0reco_pPb_rpyDependent_3Dhisto/EPOS_TH3D_Sep22_5M_rpyDependent_v1_2014.root");
+	TFile* file = new TFile("~/2014Research/ROOT_file/V0reco_pPb_rpyDependent_3Dhisto/EPOS_TH3D_Oct3_rpyDependent_5M_2014.root");
 	//TFile* file = new TFile("~/Desktop/EPOS_TH3D_Sep16_5M_v1_ptDist_2014.root");
 
 	TH3D* ksHist;
@@ -32,14 +32,14 @@ void eposClosureTestRapidity(){
 	TH1D* genks_mass[20];
 	TH1D* genla_mass[20];
 
-    double pTbinsBound[21] = {6,8,10,12,14,16,18,20,22,24,26,28,30,34,38,42,46,50,56,66,90};
+    double pTbinsBound[19] = {10,12,14,16,18,20,22,24,26,28,30,34,38,42,46,50,56,66,90};
     double pTbinsBound_1[16] = {0,2,4,6,8,10,12,14,16,18,20,26,32,42,60,90};
-    double ptbins[] = {0.6,0.8,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0,3.4,3.8,4.2,4.6,5.0,5.6,6.6,9.0};
+    double ptbins[] = {1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0,3.4,3.8,4.2,4.6,5.0,5.6,6.6,9.0};
     double ptbins_1[] = {0,0.2,0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8,2.0,2.6,3.2,4.2,6.0,9.0};
-    double binwidth[20] = {0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.4,0.4,0.4,0.4,0.4,0.6,1.0,1.4};
+    double binwidth[18] = {0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.4,0.4,0.4,0.4,0.4,0.6,1.0,1.4};
     double binwidth_1[15] = {0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.6,0.6,1.0,1.8,3.0};
 
-    double rpybins[6] = {33,91,145,199,250,314};
+    double rpybins[6] = {6,16,26,35,44,55};
 
     stringstream ksHistName;
     stringstream laHistName;
@@ -48,7 +48,7 @@ void eposClosureTestRapidity(){
 
     for ( int rpy = 0; rpy < 5; rpy++){
 
-	    for (int pt = 3; pt < 15; pt++){
+	    for (int pt = 0; pt < 18; pt++){
 
 	        ksHistName.str("");
 	        laHistName.str("");
@@ -69,9 +69,9 @@ void eposClosureTestRapidity(){
 	        xiHistName << "_";
 	        xiHistName << pt;
 
-	        ks_mass[rpy][pt] = ksHist->ProjectionZ( ksHistName.str().c_str(),rpybins[rpy]+1,rpybins[rpy+1],pTbinsBound_1[pt]+1,pTbinsBound_1[pt+1] );
-	        la_mass[rpy][pt] = laHist->ProjectionZ( laHistName.str().c_str(),rpybins[rpy]+1,rpybins[rpy+1],pTbinsBound_1[pt]+1,pTbinsBound_1[pt+1] );
-	        xiHist_mass[rpy][pt] = xiHist->ProjectionZ( xiHistName.str().c_str(),rpybins[rpy]+1,rpybins[rpy+1],pTbinsBound_1[pt]+1,pTbinsBound_1[pt+1] );
+	        ks_mass[rpy][pt] = ksHist->ProjectionZ( ksHistName.str().c_str(),rpybins[rpy]+1,rpybins[rpy+1],pTbinsBound[pt]+1,pTbinsBound[pt+1] );
+	        la_mass[rpy][pt] = laHist->ProjectionZ( laHistName.str().c_str(),rpybins[rpy]+1,rpybins[rpy+1],pTbinsBound[pt]+1,pTbinsBound[pt+1] );
+	        xiHist_mass[rpy][pt] = xiHist->ProjectionZ( xiHistName.str().c_str(),rpybins[rpy]+1,rpybins[rpy+1],pTbinsBound[pt]+1,pTbinsBound[pt+1] );
 
 	        ksHistName.str("");
 	        laHistName.str("");
@@ -82,23 +82,20 @@ void eposClosureTestRapidity(){
 	        laHistName << "genla_";
 	        laHistName << pt;
 
-	        genks_mass[pt] = genksHist->ProjectionZ( ksHistName.str().c_str(),1,350,pTbinsBound_1[pt]+1,pTbinsBound_1[pt+1] );
-	        genla_mass[pt] = genlaHist->ProjectionZ( laHistName.str().c_str(),1,350,pTbinsBound_1[pt]+1,pTbinsBound_1[pt+1] );
+	        genks_mass[pt] = genksHist->ProjectionZ( ksHistName.str().c_str(),1,70,pTbinsBound[pt]+1,pTbinsBound[pt+1] );
+	        genla_mass[pt] = genlaHist->ProjectionZ( laHistName.str().c_str(),1,70,pTbinsBound[pt]+1,pTbinsBound[pt+1] );
 	   	
 	   	}
    }
 
-   ks_mass[1][3]->Draw();
-
-
 	double genksYield[20];
 	double genlaYield[20];
 
-	TH1D* genksSpectra = new TH1D("genksSpectra","genK0short pT spectra",15,ptbins_1);
-	TH1D* genlaSpectra = new TH1D("genlaSpectra","genLambda pT spectra",15,ptbins_1);
+	TH1D* genksSpectra = new TH1D("genksSpectra","genK0short pT spectra",18,ptbins);
+	TH1D* genlaSpectra = new TH1D("genlaSpectra","genLambda pT spectra",18,ptbins);
 
 
-	for(pt = 3; pt < 15; pt++){
+	for(pt = 0; pt < 18; pt++){
 
 		genksYield[pt] = genks_mass[pt]->GetEntries();
 			//genksSpectra->SetBinContent( pt+1, genksYield[eta][pt]/(4.8*binwidth_1[pt]) );
@@ -116,8 +113,8 @@ void eposClosureTestRapidity(){
 /**
  * Getting efficiency from the table:
  */
-    
-    TFile* t1 = new TFile("/Users/kongkong/2014Research/Code/Jet'study/gitV0sRatio/hijingEfficiencyRapidityTable/effKongNew2DTable_withoutXiRemoval_10M_Sep22_rapidity_v1_12pTbins.root");
+    /*
+    TFile* t1 = new TFile("/Users/kongkong/2014Research/Code/Jet'study/gitV0sRatio/hijingEfficiencyRapidityTable/effKongNew2DTable_18M_Oct2_rapidity_v1_18pTbins.root");
     //TFile* t1 = new TFile("~/Desktop/Efficiency2D_V0_10M.root");
     
     TH2D* hnew1 = (TH2D*)t1->Get("ks_eff");
@@ -131,7 +128,7 @@ void eposClosureTestRapidity(){
 
     for (int i = 0; i < 5; i++){
 
-        for (int r = 3; r < 15; r++){
+        for (int r = 0; r < 18; r++){
 
             ks_eff[i][r] = hnew1->GetBinContent(i+1,r+1);
             	
@@ -141,6 +138,60 @@ void eposClosureTestRapidity(){
             	
             	la_eff_err[i][r] = hnew2->GetBinError(i+1,r+1);
 
+        }
+    }*/
+
+        //TFile* t1 = new TFile("~/2014Research/Code/Jet'study/gitV0sRatio/eff_2Dtable.root");
+    TFile* t1 = new TFile("~/2014Research/Code/Jet'study/gitV0sRatio/hijingEfficiencyRapidityTable/effKongNew2DTable_18M_Oct2_rapidity_v1_18pTbins.root");
+    
+    TH2D* hnew1 = (TH2D*)t1->Get("ks_eff");
+    TH2D* hnew2 = (TH2D*)t1->Get("la_eff");
+
+    TH1D* ks_eff_hist[5];
+    TH1D* la_eff_hist[5];
+
+    double ks_eff[5][20];
+    double la_eff[5][20];
+
+    double ks_eff_err[5][20];
+    double la_eff_err[5][20];
+
+    stringstream ksEffName;
+    stringstream laEffName;
+
+    for(rpy = 0; rpy < 5; rpy++){
+
+        ksEffName.str("");
+        laEffName.str("");
+
+        ksEffName << "kshist_";
+        ksEffName << rpy+1;
+
+        laEffName << "lahist_";
+        laEffName << rpy+1;
+
+        ks_eff_hist[rpy] = hnew1->ProjectionY(ksEffName.str().c_str(), rpy+1,rpy+1 );
+            ks_eff_hist[rpy]->Smooth(10);
+        la_eff_hist[rpy] = hnew2->ProjectionY(laEffName.str().c_str(), rpy+1,rpy+1 );
+            la_eff_hist[rpy]->Smooth(10);
+
+    }
+
+/*
+smoothing the efficiency:
+ */
+
+    for(rpy = 0; rpy < 5; rpy++){
+
+        for(pt = 0; pt < 18; pt++){
+
+            ks_eff[rpy][pt] = ks_eff_hist[rpy]->GetBinContent( pt+1 );
+
+                ks_eff_err[rpy][pt] = ks_eff_hist[rpy]->GetBinError( pt+1 );
+
+            la_eff[rpy][pt] = la_eff_hist[rpy]->GetBinContent( pt+1 );
+
+                la_eff_err[rpy][pt] = la_eff_hist[rpy]->GetBinError( pt+1 );  
         }
     }
 
@@ -158,7 +209,7 @@ void eposClosureTestRapidity(){
 	double temp = 0;
 
 
-    for (pt = 3; pt < 15; pt++){
+    for (pt = 0; pt < 18; pt++){
 
     	ks_pTYield[pt] = 0;
     	la_pTYield[pt] = 0;
@@ -192,10 +243,10 @@ void eposClosureTestRapidity(){
     }
 
 
-	TH1D* ks_close = new TH1D("ks_close","ks_close",15,ptbins_1);
-	TH1D* la_close = new TH1D("la_close","la_close",15,ptbins_1);
+	TH1D* ks_close = new TH1D("ks_close","ks_close",18,ptbins);
+	TH1D* la_close = new TH1D("la_close","la_close",18,ptbins);
 
-	for (pt = 3; pt < 15; pt++){
+	for (pt = 0; pt < 18; pt++){
 
 		ks_close->SetBinContent(pt+1, ks_pTYield[pt]/genksYield[pt] );
 
@@ -294,7 +345,7 @@ void eposClosureTestRapidity(){
     cout << "EPOS genLa 3rd:  " << genlaYield[5] << endl;
     cout << "EPOS recola 3rd: " << la_pTYield[5] << endl;
 
-	TFile f1("eposClosureTestResult_wErr_withoutXiRemovel_v1_rpy_12pTBins.root","new");
+	TFile f1("eposClosureTestResult_wErr_withXiRemovel_v2_smooth10_rpy_18pTBins.root","new");
 
 	ks_close->Write();
 	la_close->Write();
