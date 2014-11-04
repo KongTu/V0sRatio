@@ -71,7 +71,6 @@ Getting the 3D histograms, and store in a 1D 3dimentional histogram:
     ksHist[7] = (TH3D*)file1->Get("ana/InvMass_ks_underlying");
     laHist[7] = (TH3D*)file1->Get("ana/InvMass_la_underlying");
     xiHist[7] = (TH3D*)file1->Get("ana/XiDaughter");
-
     TFile* file1 = new TFile("~/2014Research/ROOT_file/V0reco_pPb_rpyDependent_3Dhisto/HM_TH3D_Oct3_rpyDependent_260plus_2014.root");
     ksHist[8] = (TH3D*)file1->Get("ana/InvMass_ks_underlying");
     laHist[8] = (TH3D*)file1->Get("ana/InvMass_la_underlying");
@@ -111,16 +110,16 @@ Getting the 3D histograms, and store in a 1D 3dimentional histogram:
     double ks_pTbinsBound[29] = {0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,22,24,26,28,30,34,38,42,46,50,56,66,90};
     double ks_ptbins[29] = {0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0,3.4,3.8,4.2,4.6,5.0,5.6,6.6,9.0};
     double ks_binwidth[28] = {0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.4,0.4,0.4,0.4,0.4,0.6,1.0,2.4};
+    double ks_ptbincenter[28] = {0.05,0.15,0.25,0.35,0.45,0.55,0.65,0.75,0.85,0.95,1.1,1.3,1.5,1.7,1.9,2.1,2.3,2.5,2.7,2.9,3.2,3.6,4.0,4.4,4.8,5.3,6.1,7.8};
 
     double la_pTbinsBound[21] = {6,8,10,12,14,16,18,20,22,24,26,28,30,34,38,42,46,50,56,66,90};
-
-    double ks_ptbins[30] = {0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0,3.4,3.8,4.2,4.6,5.0,5.6,6.6,9.0};
-    double ks_ptbincenter[29] = {0.05,0.15,0.25,0.35,0.45,0.55,0.65,0.75,0.85,0.95,1.05,1.15,1.3,1.5,1.7,1.9,2.1,2.3,2.5,2.7,2.9,3.2,3.6,4.0,4.4,4.8,5.3,6.1,7.8};
     double la_ptbins[21] = {0.6,0.8,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0,3.4,3.8,4.2,4.6,5.0,5.6,6.6,9.0};
     double la_ptbincenter[20] = {0.7,0.9,1.1,1.3,1.5,1.7,1.9,2.1,2.3,2.5,2.7,2.9,3.2,3.6,4.0,4.4,4.8,5.3,6.1,7.8};
+    double binwidth[20] = {0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.4,0.4,0.4,0.4,0.4,0.6,1.0,2.4};
+   
 
     double ptbins[] = {0.6,0.8,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0,3.4,3.8,4.2,4.6,5.0,5.6,6.6,9.0};
-    double binwidth[20] = {0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.4,0.4,0.4,0.4,0.4,0.6,1.0,2.4};
+    
 
 
     double rpybins[6] = {6,16,26,35,44,55};
@@ -151,7 +150,6 @@ Getting the 3D histograms, and store in a 1D 3dimentional histogram:
 
             for ( pt = 0; pt < 20; pt++){
 
-                
                 laHistName.str("");
                 xiHistName.str("");
 
@@ -184,8 +182,7 @@ Getting the 3D histograms, and store in a 1D 3dimentional histogram:
  * Getting efficiency from the table:
  */
 
-    //TFile* t1 = new TFile("~/2014Research/Code/Jet'study/gitV0sRatio/eff_2Dtable.root");
-    TFile* t1 = new TFile("~/2014Research/Code/Jet'study/gitV0sRatio/hijingEfficiencyRapidityTable/effKongNew2DTable_18M_Oct2_rapidity_v1_28ks_pTbins.root");
+/*  TFile* t1 = new TFile("~/2014Research/Code/Jet'study/gitV0sRatio/hijingEfficiencyRapidityTable/effKongNew2DTable_18M_Oct2_rapidity_v1_28ks_pTbins.root");
     
     TH2D* hnew1 = (TH2D*)t1->Get("ks_eff");
     TH2D* hnew2 = (TH2D*)t1->Get("la_eff");
@@ -198,7 +195,8 @@ Getting the 3D histograms, and store in a 1D 3dimentional histogram:
 
     double ks_eff_err[5][28];
     double la_eff_err[5][20];
-
+*/
+/*
     stringstream ksEffName;
     stringstream laEffName;
 
@@ -222,8 +220,8 @@ Getting the 3D histograms, and store in a 1D 3dimentional histogram:
 
 /*
 smoothing the efficiency:
- */
-
+*/
+/*
     for(rpy = 0; rpy < 5; rpy++){
 
         for(pt = 0; pt < 28; pt++){
@@ -241,25 +239,114 @@ smoothing the efficiency:
         }
     }
 
-
+*/
 
 /*
 without smoothing efficiency:
- */
-    /*for (int i = 0; i < 5; i++){
-
-        for (int r = 3; r < 15; r++){
-
-            ks_eff[i][r] = hnew1->GetBinContent(i+1,r+1);
-                
-                ks_eff_err[i][r] = hnew1->GetBinError(i+1,r+1);
+ *//*
+    for (rpy = 0; rpy < 5; rpy++){
+        
+        for (pt = 0; pt < 28; pt++){
             
-            la_eff[i][r] = hnew2->GetBinContent(i+1,r+1);
-                
-                la_eff_err[i][r] = hnew2->GetBinError(i+1,r+1);
-
+            ks_eff[rpy][pt] = hnew1->GetBinContent(rpy+1,pt+1);
+                ks_eff_err[rpy][pt] = hnew1->GetBinError(rpy+1,pt+1);
         }
-    }*/
+
+        for (pt = 0; pt < 20; pt++){
+
+            la_eff[rpy][pt] = hnew2->GetBinContent(rpy+1,pt+1);
+                la_eff_err[rpy][pt] = hnew2->GetBinError(rpy+1,pt+1);
+        }
+    }
+*/
+
+
+/*
+with partially smoothing efficiency, only smoothing after 2GeV:
+ */
+
+    TFile* file = new TFile("/Users/kongkong/2014Research/Code/Jet'study/gitV0sRatio/hijingEfficiencyRapidityTable/effKongNew2DTable_18M_Nov3_rapidity_v2_28ks_pTbins.root");
+    TFile* file1 = new TFile("/Users/kongkong/2014Research/Code/Jet'study/gitV0sRatio/EffSmoothProducer/EffSmoothProducer_v1.root");
+
+    TH1D* ks_eff_rpy[5];
+    TH1D* la_eff_rpy[5];
+
+    TH1D* ks_eff_rpy_new[5];
+    TH1D* la_eff_rpy_new[5];
+
+    double ks_eff[5][28];
+    double la_eff[5][20];
+
+    double ks_eff_err[5][28];
+    double la_eff_err[5][20];
+
+    stringstream ksName;
+    stringstream laName;
+
+    for (int rpy = 0; rpy < 5; rpy++){
+
+        ksName.str("");
+        laName.str("");
+
+        ksName << "ks_eff_rpy_";
+        ksName << rpy+1;
+
+        laName << "la_eff_rpy_";
+        laName << rpy+1;
+
+        ks_eff_rpy[rpy] = (TH1D*) file->Get( ksName.str().c_str() );
+        la_eff_rpy[rpy] = (TH1D*) file->Get( laName.str().c_str() );
+
+        ksName.str("");
+        laName.str("");
+
+        ksName << "ks_eff_rpy_new_";
+        ksName << rpy+1;
+
+        laName << "la_eff_rpy_new_";
+        laName << rpy+1;
+
+        ks_eff_rpy_new[rpy] = (TH1D*) file1->Get( ksName.str().c_str() );
+        la_eff_rpy_new[rpy] = (TH1D*) file1->Get( laName.str().c_str() );
+
+    }
+
+    for(rpy = 0; rpy < 5; rpy++){
+
+        for(pt = 0; pt < 15; pt++){
+
+            ks_eff[rpy][pt] = ks_eff_rpy[rpy]->GetBinContent( pt+1 );
+
+                ks_eff_err[rpy][pt] = ks_eff_rpy[rpy]->GetBinError( pt+1 );
+        }
+
+        for(pt = 0; pt < 7; pt++){
+
+            la_eff[rpy][pt] = la_eff_rpy[rpy]->GetBinContent( pt+1 );
+
+                la_eff_err[rpy][pt] = la_eff_rpy[rpy]->GetBinError( pt+1 );  
+        }
+
+        /*
+        adding smoothing after 2GeV:
+         */
+        
+        for(pt = 15; pt < 28; pt++){
+
+            ks_eff[rpy][pt] = ks_eff_rpy_new[rpy]->GetBinContent( pt+1 );
+
+                ks_eff_err[rpy][pt] = ks_eff_rpy_new[rpy]->GetBinError( pt+1 );
+        }
+
+        for(pt = 7; pt < 20; pt++){
+
+            la_eff[rpy][pt] = la_eff_rpy_new[rpy]->GetBinContent( pt+1 );
+
+                la_eff_err[rpy][pt] = la_eff_rpy_new[rpy]->GetBinError( pt+1 );  
+        }
+
+
+    }
 
 
 /*
@@ -343,112 +430,56 @@ Start to fit all histograms to obtain the eff_corr yields:
         }
     }
 
-/*
-*****************************************
- */
-
     
-/*
-This is transformation from pT to mT:
- */
-
-    double mtm0bins_ks[29];
-    double mtm0bins_la[21];
-
-    double mtm0bins_ks_width[28];
-    double mtm0bins_la_width[20];
-
-    for(pt = 0; pt < 29; pt++){
-
-        mtm0bins_ks[pt] = sqrt(ks_ptbins[pt] * ks_ptbins[pt] + 0.497 * 0.497) - 0.497;
-    }
-
-    for(pt = 0; pt < 28; pt++){
-
-        mtm0bins_ks_width[pt] = mtm0bins_ks[pt+1] - mtm0bins_ks[pt];
-    }
-
-    for(pt = 0; pt < 21; pt++){
-
-        
-        mtm0bins_la[pt] = sqrt(ptbins[pt] * ptbins[pt] + 1.115 * 1.115) - 1.115;
-    }
-
-    for(pt = 0; pt < 20; pt++){
-
-        
-        mtm0bins_la_width[pt] = mtm0bins_la[pt+1] - mtm0bins_la[pt];
-
-    }
 /*
 **************************************
  */
 
-    TH1D* ksSpectra[9];
-    TH1D* laSpectra[9];
-    TH1D* ratioHist[9];
-
-    stringstream ratioHistName;
+    TH1D* ksSpectra[8];
+    TH1D* laSpectra[8];
 
     for (mult = 0; mult < 8; mult++){
        
         ksHistName.str("");
         laHistName.str("");
-        ratioHistName.str("");
 
-            ksHistName << "ksSpectra_";
-            ksHistName << mult+1;
-            
-            laHistName << "laSpectra_";
-            laHistName << mult+1;
-            
-            ratioHistName << "ratioHist_";
-            ratioHistName << mult+1;
-            
+        ksHistName << "ksSpectra_";
+        ksHistName << mult+1;
+        
+        laHistName << "laSpectra_";
+        laHistName << mult+1;
+      
         ksSpectra[mult] = new TH1D(ksHistName.str().c_str(),ksHistName.str().c_str(),28,ks_ptbins);
         laSpectra[mult] = new TH1D(laHistName.str().c_str(),laHistName.str().c_str(),20,ptbins);
-        //ratioHist[mult] = new TH1D(ratioHistName.str().c_str(),ratioHistName.str().c_str(),20,ptbins);
-        //
-            for (pt = 0; pt < 28; pt++){
 
-                double ks_temp = (ks_HM_pTyield[mult][pt]/ks_binwidth[pt])/(2*3.1415926*ks_ptbincenter[pt+1]*4.8*ks_norm[mult]);
+            for (pt = 3; pt < 28; pt++){
+
+                double ks_temp = (ks_HM_pTyield[mult][pt]/ks_binwidth[pt])/(2*3.1415926*ks_ptbincenter[pt]*4.8*ks_norm[mult]);
 
                 ksSpectra[mult]->SetBinContent(pt+1, ks_temp );
-                ksSpectra[mult]->SetBinError(pt+1, num_ks_err[mult][pt]/( 2*3.1415926*ks_binwidth[pt]*ks_ptbincenter[pt+1]*4.8*ks_norm[mult] ));
+                ksSpectra[mult]->SetBinError(pt+1, num_ks_err[mult][pt]/(2*3.1415926*ks_binwidth[pt]*ks_ptbincenter[pt]*4.8*ks_norm[mult] ));
 
             }
     
             for (pt = 0; pt < 20; pt++){
 
-                
-                double la_temp = (la_HM_pTyield[mult][pt]/binwidth[pt])/(2*3.1415926*la_ptbincenter[pt+1]*4.8*la_norm[mult]);
+                double la_temp = (la_HM_pTyield[mult][pt]/binwidth[pt])/(2*3.1415926*la_ptbincenter[pt]*4.8*la_norm[mult]);
 
                 laSpectra[mult]->SetBinContent(pt+1, la_temp );
-                laSpectra[mult]->SetBinError(pt+1, num_la_err[mult][pt]/( 2*3.1415926*binwidth[pt]*la_ptbincenter[pt+1]*4.8*la_norm[mult] ));
+                laSpectra[mult]->SetBinError(pt+1, num_la_err[mult][pt]/( 2*3.1415926*binwidth[pt]*la_ptbincenter[pt]*4.8*la_norm[mult] ));
 
-                //ratioHist[mult]->SetBinContent(pt+1, la_HM_pTyield[mult][pt]/(2*ks_HM_pTyield[mult][pt]));
-
-                //double temp_la_withoutEff_err = sqrt(la_HM_yield[mult][rpy][pt]);
-                //double temp_ks_withoutEff_err = sqrt(ks_HM_yield[mult][rpy][pt]);
-
-                    //double err = errorCal_lambdakshort( la_HM_pTyield[mult][pt], ks_HM_pTyield[mult][pt], num_la_err[mult][pt], num_ks_err[mult][pt] );
-                
-                    //double err = errorCal_lambdakshort( la_HM_yield[mult][rpy][pt], ks_HM_yield[mult][rpy][pt], temp_la_withoutEff_err, temp_ks_withoutEff_err );
-                    //ratioHist[mult]->SetBinError(pt+1, err );
             }
-        
         
     }
 
 
-    TFile f1("All8Multbins_28ks_pTBins_wSmooth10Eff_FullStats_v3_pt.root","new");
+    TFile f1("All8Multbins_25ks_pTBins_withoutSmooth10Eff_FullStats_v6_pt.root","new");
     
     for( mult = 0; mult < 8; mult++){
 
         ksSpectra[mult]->Write();
         laSpectra[mult]->Write();
-        //ratioHist[mult]->Write();
-
+       
     }
         
 
