@@ -10,6 +10,10 @@
 #include "TH1D.h"
 #include "TFile.h"
 
+#include "fitting.h"
+
+using namespace RooFit;
+
 using namespace std;
 
 vector<double> x,ex, y,ey,x1,ex1,y1,ey1;
@@ -18,7 +22,7 @@ double getChi2;
 int getNdf;
 
 const double R = 1.0;
-const double dr = 1e-3; // FIXME
+const double dr = 1e-2; // FIXME
 
 double integral(double beta_s, double T, double n, double pt, double mt)
 {
@@ -39,8 +43,8 @@ void function(int &npar, double *gin, double &f, double *par, int flag)
 {
   double aka    = par[0];
   double aka1   = par[4];
-  double T      = par[1];
-  double beta_s = par[2];
+  double T      = par[2];
+  double beta_s = par[1];
   double n = par[3];
 
   double chi2 = 0.;
@@ -109,29 +113,35 @@ double MyFunc1( double *pt, double *p){
   
 }
 
+double beta_T(double beta_s,double n){
+
+  return (beta_s*2)/(n+2);
+
+}
+
 
 void MinuitBlastWaveCMSdataFit(){
 
   gStyle->SetErrorX(0);
 
 
-  TFile* file = new TFile("/Users/kongkong/2014Research/Code/Jet'study/gitV0sRatio/histoSpectraFolder_rpy/AllMultbins_28ks_pTBins_wSmooth10Eff_FullStats_v2_pt.root");
+  TFile* file = new TFile("/Users/kongkong/2014Research/Code/Jet'study/gitV0sRatio/histoSpectraFolder_rpy_new/new8Multbins_EPOSvtx_FullStats_v6_26ksbins_pt.root");
   
-  TH1D* ksSpectra[9];
-  TH1D* laSpectra[9];
+  TH1D* ksSpectra[8];
+  TH1D* laSpectra[8];
 
   stringstream ksHistName;
   stringstream laHistName;
 
-  for (int mult = 0; mult < 9; mult++){
+  for (int mult = 0; mult < 8; mult++){
 
     ksHistName.str("");
     laHistName.str("");
 
-    ksHistName << "ksSpectra_";
+    ksHistName << "ksSpectra_vtx_";
     ksHistName << mult+1;
 
-    laHistName << "laSpectra_";
+    laHistName << "laSpectra_vtx_";
     laHistName << mult+1;
 
     ksSpectra[mult] = (TH1D*)file->Get(ksHistName.str().c_str());
@@ -140,24 +150,24 @@ void MinuitBlastWaveCMSdataFit(){
 
   }
 
-  double ks_ptbins[30] = {0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0,3.4,3.8,4.2,4.6,5.0,5.6,6.6,9.0};
-    double ks_ptbincenter[29] = {0.05,0.15,0.25,0.35,0.45,0.55,0.65,0.75,0.85,0.95,1.05,1.15,1.3,1.5,1.7,1.9,2.1,2.3,2.5,2.7,2.9,3.2,3.6,4.0,4.4,4.8,5.3,6.1,7.8};
+  double ks_ptbins[29] = {0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0,3.4,3.8,4.2,4.6,5.0,5.6,6.6,9.0};
+    double ks_ptbincenter[26] = {0.15,0.35,0.45,0.55,0.65,0.75,0.85,0.95,1.1,1.3,1.5,1.7,1.9,2.1,2.3,2.5,2.7,2.9,3.2,3.6,4.0,4.4,4.8,5.3,6.1,7.8};
   double la_ptbins[21] = {0.6,0.8,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0,3.4,3.8,4.2,4.6,5.0,5.6,6.6,9.0};
     double la_ptbincenter[20] = {0.7,0.9,1.1,1.3,1.5,1.7,1.9,2.1,2.3,2.5,2.7,2.9,3.2,3.6,4.0,4.4,4.8,5.3,6.1,7.8};
 
   TCanvas* c1 = new TCanvas();
     c1->Divide(3,3,0,0);
 
-  double beta_s[9],Tkin[9],aka[9],aka1[9],n[9];
-  double ebeta_s[9],eTkin[9],eaka[9],eaka1[9],en[9];
+  double beta_s[8],Tkin[8],aka[8],aka1[8],n[8];
+  double ebeta_s[8],eTkin[8],eaka[8],eaka1[8],en[8];
 
   stringstream f1Name;
   stringstream f2Name;
 
-  TF1* f1[9];
-  TF1* f2[9];
+  TF1* f1[8];
+  TF1* f2[8];
 
-  TLatex* ratio[9];
+  TLatex* ratio[8];
   ratio[0] = new TLatex(2.5,45,"0 < N^{offline}_{trk} < 35");
   ratio[1] = new TLatex(2.5,45,"35 < N^{offline}_{trk} < 60");
   ratio[2] = new TLatex(2.5,45,"60 < N^{offline}_{trk} < 90");
@@ -165,18 +175,20 @@ void MinuitBlastWaveCMSdataFit(){
   ratio[4] = new TLatex(2.5,45,"120 < N^{offline}_{trk} < 150");
   ratio[5] = new TLatex(2.5,45,"150 < N^{offline}_{trk} < 185");
   ratio[6] = new TLatex(2.5,45,"185 < N^{offline}_{trk} < 220");
-  ratio[7] = new TLatex(2.5,45,"220 < N^{offline}_{trk} < 260");
-  ratio[8] = new TLatex(2.5,45,"N^{offline}_{trk} > 260");
+  ratio[7] = new TLatex(2.5,45,"220 < N^{offline}_{trk}");
+  //ratio[8] = new TLatex(2.5,45,"N^{offline}_{trk} > 260");
 
   TLegend *w1 = new TLegend(0.25,0.4,0.5,0.5);
   w1->SetLineColor(kWhite);
   w1->SetFillColor(0);
 
-  w1->AddEntry(ksSpectra[8],"K^{0}_{s}");
-  w1->AddEntry(laSpectra[8],"#Lambda/#bar{#Lambda}");
+  w1->AddEntry(ksSpectra[7],"K^{0}_{s}");
+  w1->AddEntry(laSpectra[7],"#Lambda/#bar{#Lambda}");
+
+  TGraph* test[8];
   
 
-  for(int mult = 0; mult < 9; mult++){
+  for(int mult = 0; mult < 8; mult++){
 
       x.clear();
       ex.clear();
@@ -188,7 +200,7 @@ void MinuitBlastWaveCMSdataFit(){
       y1.clear();
       ey1.clear();
 
-      for (int pt = 5; pt < 13; pt++){
+      for (int pt = 2; pt < 13; pt++){
 
         x.push_back( ks_ptbincenter[pt] );
         ex.push_back(0.0);
@@ -221,29 +233,33 @@ void MinuitBlastWaveCMSdataFit(){
       gMinuit[mult]->mnexcm("SET ERR", arglist, 1, 0);
 
       gMinuit[mult]->mnparm(0, "aka",    10,   0.1,  1,    10000, 0);
-      gMinuit[mult]->mnparm(1, "Tkin",   0.15, 0.01, 0.05, 1.0,   0);
-      gMinuit[mult]->mnparm(2, "beta_s", 0.70, 0.01, 0.15, 1.0,   0);
-      gMinuit[mult]->mnparm(3, "n",      1.1,  0.01, 1.0,  10.0,  0);
+      gMinuit[mult]->mnparm(1, "beta_s", 0.70, 0.01, 0.15, 1.0,   0);
+      gMinuit[mult]->mnparm(2, "Tkin",   0.15, 0.01, 0.05, 1.0,   0);
+      gMinuit[mult]->mnparm(3, "n",      1.0,  0.01, 0.1,  10.0,  0);
       gMinuit[mult]->mnparm(4, "aka1",   10,   0.1,  1,    10000, 0);
 
       gMinuit[mult]->mnexcm("MIGRAD",    arglist,  1,   0);
       gMinuit[mult]->mnexcm("CALL FCN",  arglist,  1,   0);
-      gMinuit[mult]->mnexcm("HESSE",     arglist,  1,   0);
+      //gMinuit[mult]->mnexcm("HESSE",     arglist,  1,   0);
 
       gMinuit[mult]->GetParameter(0, aka[mult],    eaka[mult]);
-      gMinuit[mult]->GetParameter(1, Tkin[mult],   eTkin[mult]);
-      gMinuit[mult]->GetParameter(2, beta_s[mult], ebeta_s[mult]);
+      gMinuit[mult]->GetParameter(1, beta_s[mult], ebeta_s[mult]);
+      gMinuit[mult]->GetParameter(2, Tkin[mult],   eTkin[mult]);
       gMinuit[mult]->GetParameter(3, n[mult],      en[mult]);
       gMinuit[mult]->GetParameter(4, aka1[mult],   eaka1[mult]);
+
+      gMinuit[mult]->SetErrorDef(4);
+      test[mult] = (TGraph*)gMinuit[mult]->Contour(100,1,2);
+      //test->SetFillColor(42);
 
   /**
    * define the fit function by using the parameters from fit:
    */
 
       double xmin = 0.35;
-      double xmax = 1.5;
+      double xmax = 2.0;
 
-      double xmin1 = 0.6;
+      double xmin1 = 0.8;
       double xmax1 = 3.3;
 
       f1Name.str("");
@@ -295,17 +311,69 @@ void MinuitBlastWaveCMSdataFit(){
 
   w1->Draw("same");
 
+
+
   TCanvas* s1 = new TCanvas();
 
-  TGraph* g = new TGraph(9);
+  TH1D* hist = new TH1D("h1","h1",100,0.2,0.7);
+  hist->GetYaxis()->SetRangeUser(0.02,0.25);
+  hist->GetXaxis()->SetRangeUser(0.2,0.7);
 
-  for(mult = 0; mult < 9; mult++){
+  TGraph* g = new TGraph(8);
 
-    g->SetPoint(mult,beta_s[mult],Tkin[mult]);
+  g->SetMarkerStyle(20);
+
+  for(mult = 0; mult < 8; mult++){
+
+    double temp = 0.0;
+    temp = beta_T(beta_s[mult],n[mult]);
+
+    g->SetPoint(mult,temp,Tkin[mult]);
 
   }
 
-  g->Draw("AP");
+  hist->Draw("P");
+  g->Draw("Psame");
+
+  double ellipse_x[8][100];
+  double ellipse_y[8][100];
+
+  for(mult = 0; mult < 8; mult++){
+
+    double temp = beta_T(beta_s[mult],n[mult]);
+    double shift = beta_s[mult]-temp;
+
+    for(int i = 0; i < 100; i++){
+
+        test[mult]->GetPoint(i,ellipse_x[mult][i],ellipse_y[mult][i]);
+        ellipse_x[mult][i] = ellipse_x[mult][i] - shift;
+    }   
+  }
+
+  TGraph* g1[8];
+
+  for(mult = 0; mult < 8; mult++){
+
+    g1[mult] = new TGraph(100);
+      
+      for(i = 0; i < 100; i++){
+          
+          g1[mult]->SetPoint(i,ellipse_x[mult][i],ellipse_y[mult][i]);
+          g1[mult]->SetLineColor(kRed);
+          g1[mult]->SetMarkerColor(kRed);
+
+      }
+
+      g1[mult]->Draw("same");
+  }
+
+
+
+  
+  
+  
+  
+ 
 
 
 
