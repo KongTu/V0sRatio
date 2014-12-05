@@ -51,6 +51,10 @@ Getting the 3D histograms, and store in a 1D 3dimentional histogram:
     TH1D* la_MB[4][6][20];
 
     double pTbinsBound[21] = {6,8,10,12,14,16,18,20,22,24,26,28,30,34,38,42,46,50,56,66,90};
+    double pTbinsBound_1[16] = {0,2,4,6,8,10,12,14,16,18,20,26,32,42,60,90};
+
+    double ptbins_1[] = {0,0.2,0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8,2.0,2.6,3.2,4.2,6.0,9.0};
+    double binwidth_1[15] = {0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.6,0.6,1.0,1.8,3.0};
 
     stringstream ksHistName;
     stringstream laHistName;
@@ -59,7 +63,7 @@ Getting the 3D histograms, and store in a 1D 3dimentional histogram:
 
         for (int eta = 0; eta < 6; eta++){
 
-            for (int pt = 0; pt < 20; pt++){
+            for (int pt = 3; pt < 15; pt++){
 
                 ksHistName.str("");
                 laHistName.str("");
@@ -78,8 +82,8 @@ Getting the 3D histograms, and store in a 1D 3dimentional histogram:
                 laHistName << "_";
                 laHistName << pt;
 
-                ks_MB[mult][eta][pt] = ksHist[mult]->ProjectionZ( ksHistName.str().c_str(),eta+1,eta+1,pTbinsBound[pt]+1,pTbinsBound[pt+1] );
-                la_MB[mult][eta][pt] = laHist[mult]->ProjectionZ( laHistName.str().c_str(),eta+1,eta+1,pTbinsBound[pt]+1,pTbinsBound[pt+1] );
+                ks_MB[mult][eta][pt] = ksHist[mult]->ProjectionZ( ksHistName.str().c_str(),eta+1,eta+1,pTbinsBound_1[pt]+1,pTbinsBound_1[pt+1] );
+                la_MB[mult][eta][pt] = laHist[mult]->ProjectionZ( laHistName.str().c_str(),eta+1,eta+1,pTbinsBound_1[pt]+1,pTbinsBound_1[pt+1] );
             }
         }
     }
@@ -94,28 +98,24 @@ Getting the 3D histograms, and store in a 1D 3dimentional histogram:
  * Getting efficiency from the table:
  */
     
-    //TFile* t1 = new TFile("~/2014Research/Code/Jet'study/gitV0sRatio/eff_2Dtable.root");
-    TFile* t1 = new TFile("~/Desktop/Efficiency2D_V0_all_smooth10.root");
+    TFile* t1 = new TFile("~/2014Research/Code/Jet'study/gitV0sRatio/hijingEfficiencyTable/HIJING_withXiRemoval_effKongNew2DTable_10M_Sep21_v2_12pTbins.root");
+    //TFile* t1 = new TFile("~/Desktop/Efficiency2D_V0_all_smooth10.root");
     
-    TH2D* hnew1 = (TH2D*)t1->Get("ks2Dnew");
-    TH2D* hnew2 = (TH2D*)t1->Get("la2Dnew");
+    TH2D* hnew1 = (TH2D*)t1->Get("ks_eff");
+    TH2D* hnew2 = (TH2D*)t1->Get("la_eff");
 
     double ks_eff[6][20];
     double la_eff[6][20];
 
     for (int i = 0;i < 6;i++){
 
-        for (int r = 0; r < 20; r++){
+        for (int r = 3; r < 15; r++){
 
-            ks_eff[i][r] = hnew1->GetBinContent(i+1,r+2);
-            la_eff[i][r] = hnew2->GetBinContent(i+1,r+2);
+            ks_eff[i][r] = hnew1->GetBinContent(i+1,r+1);
+            la_eff[i][r] = hnew2->GetBinContent(i+1,r+1);
 
         }
     }
-
-/*
-****************************************
- */
 
 /*
 Start to fit all histograms to obtain the eff_corr yields:
@@ -128,7 +128,7 @@ Start to fit all histograms to obtain the eff_corr yields:
         
         for (eta = 0; eta < 6; eta++){
 
-            for (pt = 0; pt < 20; pt++){
+            for (pt = 3; pt < 15; pt++){
 
                 ks_MB_yield[mult][eta][pt] = ks_YieldCal( ks_MB[mult][eta][pt] );
                     ks_MB_yield[mult][eta][pt] = ks_MB_yield[mult][eta][pt]/ ks_eff[eta][pt];
@@ -149,7 +149,7 @@ Start to fit all histograms to obtain the eff_corr yields:
 
     for (mult = 0; mult < 4; mult++){
 
-        for (pt = 0; pt < 20; pt++){
+        for (pt = 3; pt < 15; pt++){
 
             ks_MB_pTyield[mult][pt] = 0;
             la_MB_pTyield[mult][pt] = 0;
@@ -192,29 +192,29 @@ Start to fit all histograms to obtain the eff_corr yields:
             ratioHistName << "ratioHist_";
             ratioHistName << mult+1;
 
-        ksSpectra[mult] = new TH1D(ksHistName.str().c_str(),ksHistName.str().c_str(),20,ptbins);
-        laSpectra[mult] = new TH1D(laHistName.str().c_str(),laHistName.str().c_str(),20,ptbins);
-        ratioHist[mult] = new TH1D(ratioHistName.str().c_str(),ratioHistName.str().c_str(),20,ptbins);
+        ksSpectra[mult] = new TH1D(ksHistName.str().c_str(),ksHistName.str().c_str(),15,ptbins_1);
+        laSpectra[mult] = new TH1D(laHistName.str().c_str(),laHistName.str().c_str(),15,ptbins_1);
+        ratioHist[mult] = new TH1D(ratioHistName.str().c_str(),ratioHistName.str().c_str(),15,ptbins_1);
         
-        for (pt = 0; pt < 20; pt++){
+        for (pt = 3; pt < 15; pt++){
 
-            double ks_temp = (ks_MB_pTyield[mult][pt]/binwidth[pt])/(2*3.1415926*ptbins[pt+1]*etarange*ks_norm[mult]);
-            double la_temp = (la_MB_pTyield[mult][pt]/binwidth[pt])/(2*3.1415926*ptbins[pt+1]*etarange*la_norm[mult]);
+            double ks_temp = (ks_MB_pTyield[mult][pt]/binwidth_1[pt])/(2*3.1415926*ptbins_1[pt+1]*etarange*ks_norm[mult]);
+            double la_temp = (la_MB_pTyield[mult][pt]/binwidth_1[pt])/(2*3.1415926*ptbins_1[pt+1]*etarange*la_norm[mult]);
 
             ksSpectra[mult]->SetBinContent(pt+1, ks_temp );
-            ksSpectra[mult]->SetBinError(pt+1, sqrt((ks_MB_pTyield[mult][pt]/binwidth[pt]))/(2*3.1415926*ptbins[pt+1]*etarange*ks_norm[mult]));
+            ksSpectra[mult]->SetBinError(pt+1, sqrt((ks_MB_pTyield[mult][pt]/binwidth_1[pt]))/(2*3.1415926*ptbins_1[pt+1]*etarange*ks_norm[mult]));
 
             laSpectra[mult]->SetBinContent(pt+1, la_temp );
-            laSpectra[mult]->SetBinError(pt+1, sqrt((la_MB_pTyield[mult][pt]/binwidth[pt]))/(2*3.1415926*ptbins[pt+1]*etarange*la_norm[mult]));
+            laSpectra[mult]->SetBinError(pt+1, sqrt((la_MB_pTyield[mult][pt]/binwidth_1[pt]))/(2*3.1415926*ptbins_1[pt+1]*etarange*la_norm[mult]));
 
             ratioHist[mult]->SetBinContent(pt+1, la_MB_pTyield[mult][pt]/(2*ks_MB_pTyield[mult][pt]));
-            double err = errorCal( (la_MB_pTyield[mult][pt]/binwidth[pt]), (ks_MB_pTyield[mult][pt]/binwidth[pt]) );
+            double err = errorCal_lambdakshort( (la_MB_pTyield[mult][pt]/binwidth_1[pt]), (ks_MB_pTyield[mult][pt]/binwidth_1[pt]) );
             ratioHist[mult]->SetBinError(pt+1, err );
         }
 
     }
 
-    TFile f2("MBbins.root","new");
+    TFile f2("MBbins_12pTBins.root","new");
         for (int you = 0; you < 4; you++){
 
             ksSpectra[you]->Write();

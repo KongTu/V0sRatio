@@ -6,7 +6,7 @@ void plotSpectraRatio(){
 
 	gStyle->SetErrorX(0);
 
-	TFile* file1 = new TFile("./HMbins_pTEffCorr.root");
+	TFile* file1 = new TFile("./HMbins_12pTBins.root");
 
 	TH1D* ksSpectra[9];
 	TH1D* laSpectra[9];
@@ -33,7 +33,7 @@ void plotSpectraRatio(){
 
 	}
 
-	TFile* file2 = new TFile("./MBbins_pTEffCorr.root");
+	TFile* file2 = new TFile("./MBbins_12pTBins.root");
 
 	for (it = 0; it < 4; it++){
 
@@ -71,7 +71,7 @@ void plotSpectraRatio(){
 /**
  * plotting ratio in multipanel:
  */
-/*
+
 	TCanvas* c1 = new TCanvas();
     gStyle->SetOptTitle(0);
     gStyle->SetPadBorderMode(0);
@@ -106,8 +106,8 @@ void plotSpectraRatio(){
                 YTtile->Draw("same");
 
         }
-*/
 
+/*
 
     TCanvas* y1 = new TCanvas();
         gPad->SetTicks();
@@ -328,7 +328,7 @@ void plotSpectraRatio(){
     r22->Draw("same");
     r5->Draw("same");
 
-
+*/
 
 
 }

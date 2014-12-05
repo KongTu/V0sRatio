@@ -9,7 +9,8 @@ using namespace RooFit;
 
 void hijingMultEfficiencyComparison(){
 
-	TFile* file = new TFile("/Users/kongkong/2014Research/Code/Jet'study/gitV0sRatio/hijingMultEfficiencyProducer/HIJING_8multBins_5thYbin_6M_v10.root");
+	//TFile* file = new TFile("/Users/kongkong/2014Research/Code/Jet'study/gitV0sRatio/hijingMultEfficiencyProducer/HIJING_8multBins_allEta_PbPb_v15.root");
+	TFile* file = new TFile("./HIJING_2multBins_3rdEta_PbPb_v19.root");
 
 	TH1D* ks_eff[8];
 	TH1D* la_eff[8];
@@ -17,7 +18,7 @@ void hijingMultEfficiencyComparison(){
 	stringstream ksName;
 	stringstream laName;
 
-	for(int mult = 0; mult < 8; mult++){
+	for(int mult = 0; mult < 2; mult++){
 
 		ksName.str("");
 		laName.str("");
@@ -39,6 +40,35 @@ void hijingMultEfficiencyComparison(){
     double ks_pTbinsBound[29] = {0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,22,24,26,28,30,34,38,42,46,50,56,66,90};
     double ks_ptbins[29] = {0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0,3.4,3.8,4.2,4.6,5.0,5.6,6.6,9.0};
     double ks_binwidth[28] = {0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.4,0.4,0.4,0.4,0.4,0.6,1.0,2.4};
+
+    TLine* l1 = new TLine(0,1,9.0,1.0);
+	l1->SetLineWidth(2);
+	l1->SetLineColor(kRed);
+	l1->SetLineStyle(2);
+
+ 	TCanvas* c2 = new TCanvas();
+ 	c2->Divide(2,1,0,0);
+ 	c2->cd(1);
+    ks_eff[1]->Divide( ks_eff[0] );
+    ks_eff[1]->SetYTitle("high/low Ntrk eff");
+    ks_eff[1]->SetXTitle("pT(GeV/c)");
+    ks_eff[1]->SetTitle("K^{0}_{s}");
+    ks_eff[1]->SetMarkerStyle(20);
+    ks_eff[1]->SetLineColor(kBlack);
+ 	ks_eff[1]->GetYaxis()->SetRangeUser(0.3,1.3);
+    ks_eff[1]->Draw();
+    l1->Draw("same");
+    c2->cd(2);
+    la_eff[1]->Divide( la_eff[0] );
+    la_eff[1]->SetXTitle("pT(GeV/c)");
+ 	la_eff[1]->GetYaxis()->SetRangeUser(0.3,1.3);
+ 	la_eff[1]->SetTitle("#Lambda/#bar{#Lambda}");
+ 	la_eff[1]->SetMarkerStyle(20);
+    la_eff[1]->SetLineColor(kBlack);
+    la_eff[1]->Draw();
+    l1->Draw("same");
+
+    return;
 
 	TH1D* ks_eff_new = new TH1D("ks_new","ks_new",28,ks_ptbins);
 	TH1D* la_eff_new = new TH1D("la_new","la_new",20,ptbins);
@@ -69,10 +99,7 @@ void hijingMultEfficiencyComparison(){
     TLatex* r4 = new TLatex(1.36,1.2,"#Lambda/#bar{#Lambda}");
     r4->SetTextSize(0.07);
 
-	TLine* l1 = new TLine(0,1,9.0,1.0);
-	l1->SetLineWidth(2);
-	l1->SetLineColor(kRed);
-	l1->SetLineStyle(2);
+	
 
 	TCanvas* c1 = new TCanvas();
 	c1->Divide(4,2,0,0);

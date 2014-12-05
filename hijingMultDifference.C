@@ -8,19 +8,15 @@ using namespace RooFit;
 
 void hijingMultDifference(){
 
-	TFile* file1 = new TFile("/Users/kongkong/2014Research/Code/Jet'study/gitV0sRatio/hijingMultEfficiencyProducer/HIJING_8multBins_3rdYbins_PbPb_6M_v12.root");
-	TFile* file2 = new TFile("/Users/kongkong/2014Research/Code/Jet'study/gitV0sRatio/hijingMultEfficiencyProducer/HIJING_4multBins_3rdYbins_pPb_10M_v13.root");
-
-	TH1D* ks_eff_pPb[4];
-	TH1D* la_eff_pPb[4];
-
-	TH1D* ks_eff_PbPb[4];
-	TH1D* la_eff_PbPb[4];
+	TFile* file1 = new TFile("/Users/kongkong/2014Research/Code/Jet'study/gitV0sRatio/hijingMultEfficiencyProducer/HIJING_4multBins_allEta_pPb_PbPb_v14.root");
+	
+	TH1D* ks_eff[8];
+	TH1D* la_eff[8];
 
 	stringstream ksName;
 	stringstream laName;
 
-	for(int mult = 0; mult < 4; mult++){
+	for(int mult = 0; mult < 8; mult++){
 
 		ksName.str("");
 		laName.str("");
@@ -31,22 +27,9 @@ void hijingMultDifference(){
 		laName << "la_eff_mult_";
 		laName << mult+1;
 
-		ks_eff_pPb[mult] = (TH1D*)file2->Get( ksName.str().c_str() );
-		la_eff_pPb[mult] = (TH1D*)file2->Get( laName.str().c_str() );
+		ks_eff[mult] = (TH1D*)file1->Get( ksName.str().c_str() );
+		la_eff[mult] = (TH1D*)file1->Get( laName.str().c_str() );
 
-		ksName.str("");
-		laName.str("");
-
-		ksName << "ks_eff_mult_PbPb";
-		ksName << mult+1;
-
-		laName << "la_eff_mult_PbPb";
-		laName << mult+1;
-		
-		ks_eff_PbPb[mult] = (TH1D*)file1->Get( ksName.str().c_str() );
-		la_eff_PbPb[mult] = (TH1D*)file1->Get( laName.str().c_str() );
-	
-	
 	}
 
 	TLine* l1 = new TLine(0,1,9.0,1.0);
@@ -66,15 +49,16 @@ void hijingMultDifference(){
 	for(mult = 0; mult < 4; mult++){
 
 		c1->cd(mult+1);
-		la_eff_pPb[mult]->Divide( la_eff_PbPb[mult] );
-		la_eff_pPb[mult]->SetMarkerStyle(20);
-		la_eff_pPb[mult]->SetLineColor(kBlack);
-		la_eff_pPb[mult]->SetStats(kFALSE);
-		la_eff_pPb[mult]->GetYaxis()->SetRangeUser(0.8,1.7);
-		la_eff_pPb[mult]->SetYTitle("Hijing pPb/PbPb eff ratio");
-		la_eff_pPb[mult]->SetXTitle("pT(GeV/c)");
-		la_eff_pPb[mult]->SetTitle("#Lambda/#bar{#Lambda}");
-		la_eff_pPb[mult]->Draw("P");
+		ks_eff[mult]->Divide( ks_eff[mult+4] );
+		ks_eff[mult]->SetMarkerStyle(20);
+		ks_eff[mult]->SetLineColor(kBlack);
+		ks_eff[mult]->SetStats(kFALSE);
+		ks_eff[mult]->GetYaxis()->SetRangeUser(0.8,1.7);
+		ks_eff[mult]->SetYTitle("Hijing pPb/PbPb eff ratio");
+		ks_eff[mult]->SetXTitle("pT(GeV/c)");
+		//ks_eff[mult]->SetTitle("#Lambda/#bar{#Lambda}");
+		ks_eff[mult]->SetTitle("K^{0}_{s}");
+		ks_eff[mult]->Draw("P");
 		ratio[mult]->Draw("same");
 		l1->Draw("same");
 

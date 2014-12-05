@@ -26,9 +26,6 @@ void EffSmoothProducer(){
 	TH1D* ks_eff_rpy[5];
 	TH1D* la_eff_rpy[5];
 
-	TH1D* ks_eff_rpy_smooth[5];
-	TH1D* la_eff_rpy_smooth[5];
-
 	stringstream ksName;
 	stringstream laName;
 
@@ -45,9 +42,6 @@ void EffSmoothProducer(){
 
 		ks_eff_rpy[rpy] = (TH1D*) file->Get( ksName.str().c_str() );
 		la_eff_rpy[rpy] = (TH1D*) file->Get( laName.str().c_str() );
-
-		ks_eff_rpy_smooth[rpy] = (TH1D*) file->Get( ksName.str().c_str() );
-		la_eff_rpy_smooth[rpy] = (TH1D*) file->Get( laName.str().c_str() );
 
 	}
 
@@ -78,19 +72,21 @@ void EffSmoothProducer(){
 
 			for(pt = 0; pt < 28; pt++){
 
-				ks_eff_rpy_new[rpy]->SetBinContent(pt+1, ks_eff_rpy_smooth[rpy]->GetBinContent(pt+1) );
+				ks_eff_rpy_new[rpy]->SetBinContent(pt+1, ks_eff_rpy[rpy]->GetBinContent(pt+1) );
+					ks_eff_rpy_new[rpy]->SetBinError(pt+1, ks_eff_rpy[rpy]->GetBinError(pt+1) );
 
 			}
 
 			for(pt = 0; pt < 20; pt++){
 
-				la_eff_rpy_new[rpy]->SetBinContent(pt+1, la_eff_rpy_smooth[rpy]->GetBinContent(pt+1) );
+				la_eff_rpy_new[rpy]->SetBinContent(pt+1, la_eff_rpy[rpy]->GetBinContent(pt+1) );
+					la_eff_rpy_new[rpy]->SetBinError(pt+1, la_eff_rpy[rpy]->GetBinError(pt+1) );
 			}
 
 		
 	}
 
-	TFile f1("EffSmoothProducer_v1.root","new");	
+	TFile f1("EffSmoothProducer_v2.root","new");	
 
 	for(rpy = 0; rpy < 5; rpy++){
 

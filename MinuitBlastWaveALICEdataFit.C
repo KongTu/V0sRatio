@@ -259,12 +259,12 @@ void MinuitBlastWaveALICEdataFit(){
 
 
 
-	for (int pt = 0; pt < 16; pt++){
+	for (int pt = 0; pt < 15; pt++){
 
 		x.push_back( ptbincenter_ks[pt] );
 		ex.push_back(0.0);
-		y.push_back( yields_ks7[pt] );
-		ey.push_back( yields_ks_error7[pt] );
+		y.push_back( yields_ks1[pt] );
+		ey.push_back( yields_ks_error1[pt] );
 
 	}
 
@@ -272,8 +272,8 @@ void MinuitBlastWaveALICEdataFit(){
 
 		x1.push_back( ptbincenter_la[pt] );
 		ex1.push_back(0.0);
-		y1.push_back( yields_la7[pt] );
-		ey1.push_back( yields_la_error7[pt] );
+		y1.push_back( yields_la1[pt] );
+		ey1.push_back( yields_la_error1[pt] );
 
 	}
 
@@ -365,8 +365,6 @@ void MinuitBlastWaveALICEdataFit(){
 	c1->SetLogy(1);
 
 	g_ks->Draw("AP");
-	//g_ks-GetXaxis()->SetRangeUser(0,3.0);
-	
 	g_la->Draw("Psame");
 	f2->Draw("same");
 	f1->Draw("same");

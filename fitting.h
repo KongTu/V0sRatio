@@ -12,6 +12,7 @@
 #include "TH3.h"
 #include "TMath.h"
 #include <sstream>
+#include <string>
 
 #include "TGraph.h"
 #include "TGraphErrors.h"
@@ -71,6 +72,23 @@ float Mass_e(float px_1,float py_1,float pz_1,float px_2,float py_2,float pz_2)
         return sqrt(temp);
 }
 
+double errorCal_num(double reco_yield, double reco_yield_err, double eff, double eff_err){
+
+    double first = (reco_yield_err*reco_yield_err)/(eff*eff);
+    double second = (reco_yield*reco_yield*eff_err*eff_err)/(eff*eff*eff*eff);
+
+    double error = sqrt( first + second );
+    return error;
+}
+
+double errorCal_sum(double c1, double c2, double c3, double c4, double c5, double c6){
+
+    double error = sqrt( c1*c1+c2*c2+c3*c3+c4*c4+c5*c5+c6*c6 );
+
+    return error;
+}
+
+
 double errorCal(double yield_la, double yield_ks){
 
     double ks_temp = sqrt( yield_ks );
@@ -83,6 +101,41 @@ double errorCal(double yield_la, double yield_ks){
     return error;
 
 }
+
+double errorCal_lambdakshort(double yield_la, double yield_ks, double la_err, double ks_err){
+
+    double first = (la_err*la_err)/(4*(yield_ks)*(yield_ks));
+    double second = ( (yield_la)*(yield_la)*ks_err*ks_err )/(16*(yield_ks)*(yield_ks)*(yield_ks)*(yield_ks));
+
+    double error = sqrt( first + second );
+    return error;
+
+}
+
+void histDraw( TH1D* myHist, string yTitle, string xTitle ){
+
+    myHist->SetMarkerStyle(24);
+    myHist->SetMarkerColor(kBlue);
+    myHist->SetMarkerSize(1.3);
+    myHist->SetYTitle( yTitle.c_str() );
+    myHist->SetXTitle( xTitle.c_str() );
+    gPad->SetTicks();
+
+        myHist->Draw("P");
+}
+
+void histDrawSame( TH1D* myHist, string yTitle, string xTitle ){
+
+    myHist->SetMarkerStyle(24);
+    myHist->SetMarkerColor(kRed);
+    myHist->SetMarkerSize(1.3);
+    myHist->SetYTitle( yTitle.c_str() );
+    myHist->SetXTitle( xTitle.c_str() );
+    gPad->SetTicks();
+
+        myHist->Draw("Psame");
+}
+
 
 double ks_YieldCal( TH1D* inputHist ){
 

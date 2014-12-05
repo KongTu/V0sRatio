@@ -145,8 +145,8 @@ double ks_YieldCal( TH1D* inputHist ){
     double c2 = b.getVal();
 
     double sigmaf  = sqrt(sigmaf1 **2*sigwf1  + sigmaf2 **2*sigwf2 );
-    double massmin  = meanf  - 2*sigmaf ;
-    double massmax  = meanf  + 2*sigmaf ;
+    double massmin  = meanf  - 5*sigmaf ;
+    double massmax  = meanf  + 5*sigmaf ;
 
     int nmin  =  inputHist  ->GetXaxis()->FindBin(massmin );
     int nmax  =  inputHist  ->GetXaxis()->FindBin(massmax );
@@ -253,8 +253,8 @@ double la_YieldCal( TH1D* inputHist ){
     double c2 = b.getVal();
 
     double sigmaf  = sqrt(sigmaf1 **2*sigwf1  + sigmaf2 **2*sigwf2 );
-    double massmin  = meanf  - 2*sigmaf ;
-    double massmax  = meanf  + 2*sigmaf ;
+    double massmin  = meanf  - 5*sigmaf ;
+    double massmax  = meanf  + 5*sigmaf ;
 
     int nmin  = inputHist->GetXaxis()->FindBin(massmin );
     int nmax  = inputHist->GetXaxis()->FindBin(massmax );
@@ -302,6 +302,8 @@ double la_YieldCal( TH1D* inputHist ){
 }
 
 void inclusiveJetYieldCalPtCut_updates_All(){
+
+    gStyle->SetErrorX(0);
 
 /**
  * MB sample, with Ntrk > 50; 4 bins:
@@ -470,6 +472,22 @@ void inclusiveJetYieldCalPtCut_updates_All(){
         la_underlying_mass[8][y] = la_8_underlying_mass[y];
 
     }
+
+    int N_ks[9];
+    int N_la[9];
+    int e = 0;
+
+    for (int r = 0; r < 9; r++){
+
+         N_ks[r] = 0;
+         N_la[r] = 0;
+
+        for ( e = 0; e < 20; e++){
+
+            N_ks[r] = ks_underlying_mass[r][e]->GetEntries() + N_ks[r];
+            N_la[r] = la_underlying_mass[r][e]->GetEntries() + N_la[r];
+        }
+    }
   
 
     float ks_underlying_yield[9][20];
@@ -541,8 +559,8 @@ void inclusiveJetYieldCalPtCut_updates_All(){
     stringstream la_name;
 
 
-/*
-start to fit and print the histos:
+/**
+ * Spectra for K0short:
  */
 
     for ( it = 0; it < 9; it++){
@@ -551,14 +569,14 @@ start to fit and print the histos:
         h1[it] = new TH1F(Form("h1%d",it),"h1",20,ptbins);
 
         ks_name.str("");
-        ks_name << "ksHist_July18_underlying_";
+        ks_name << "ksHist_July22_underlying_";
         ks_name << it;
         ks_name << ".pdf[";
 
             c1[it]->Print( ks_name.str().c_str() );
 
         ks_name.str("");
-        ks_name << "ksHist_July18_underlying_";
+        ks_name << "ksHist_July22_underlying_";
         ks_name << it;
         ks_name << ".pdf";
 
@@ -566,14 +584,17 @@ start to fit and print the histos:
 
             ks_underlying_yield[it][is] = ks_YieldCal( ks_underlying_mass[it][is] );
             c1[it]->Print( ks_name.str().c_str() );
-            ks_underlying_yield[it][is] = ks_underlying_yield[it][is]/ks_eff[is];
-            h1[it]->SetBinContent(is+1, (ks_underlying_yield[it][is]/binwidth[is]) );
-            h1[it]->SetBinError(is+1, sqrt( ks_underlying_yield[it][is] ) );
+
+                ks_underlying_yield[it][is] = ks_underlying_yield[it][is]/ks_eff[is];
+
+                float temp_ks = (ks_underlying_yield[it][is]/binwidth[is])/ (2*3.1415926*ptbins[is+1]*4.8);
+                    h1[it]->SetBinContent(is+1, temp_ks );
+                    h1[it]->SetBinError( is+1, sqrt( (ks_underlying_yield[it][is]/binwidth[is]) )/(2*3.1415926*ptbins[is+1]*4.8) );
 
         }
 
         ks_name.str("");
-        ks_name << "ksHist_July18_underlying_";
+        ks_name << "ksHist_July22_underlying_";
         ks_name << it;
         ks_name << ".pdf]";
 
@@ -581,6 +602,9 @@ start to fit and print the histos:
 
     }
 
+/**
+ * Spectra for Lambda:
+ */
 
     for ( it = 0; it < 9; it++){
 
@@ -588,14 +612,14 @@ start to fit and print the histos:
         h2[it] = new TH1F(Form("h2%d",it),"h2",20,ptbins);
 
         la_name.str("");
-        la_name << "laHist_July18_underlying_";
+        la_name << "laHist_July22_underlying_";
         la_name << it;
         la_name << ".pdf[";
 
             c2[it]->Print( la_name.str().c_str() );
 
         la_name.str("");
-        la_name << "laHist_July18_underlying_";
+        la_name << "laHist_July22_underlying_";
         la_name << it;
         la_name << ".pdf";
 
@@ -603,14 +627,17 @@ start to fit and print the histos:
 
             la_underlying_yield[it][is] = la_YieldCal( la_underlying_mass[it][is] );
             c2[it]->Print( la_name.str().c_str() );
-            la_underlying_yield[it][is] = la_underlying_yield[it][is]/la_eff[is];
-            h2[it]->SetBinContent(is+1, (la_underlying_yield[it][is]/binwidth[is]) );
-            h2[it]->SetBinError(is+1, sqrt( la_underlying_yield[it][is] ) );
+                la_underlying_yield[it][is] = la_underlying_yield[it][is]/la_eff[is];
+
+                float temp_la = (la_underlying_yield[it][is]/binwidth[is])/(2*3.1415926*ptbins[is+1]*4.8);
+
+                    h2[it]->SetBinContent(is+1, temp_la );
+                    h2[it]->SetBinError(is+1, sqrt( (la_underlying_yield[it][is]/binwidth[is]) )/(2*3.1415926*ptbins[is+1]*4.8) );
 
         }
 
         la_name.str("");
-        la_name << "laHist_July18_underlying_";
+        la_name << "laHist_July22_underlying_";
         la_name << it;
         la_name << ".pdf]";
 
@@ -628,7 +655,7 @@ Calculate the Lambda/K0short ratio as well as the errors:
 
         for (is = 0; is < 20; is++){
 
-            double err = errorCal( la_underlying_yield[it][is], ks_underlying_yield[it][is] );
+            double err = errorCal( la_underlying_yield[it][is]/binwidth[is], ks_underlying_yield[it][is]/binwidth[is] );
             double temp = la_underlying_yield[it][is]/( 2 * ks_underlying_yield[it][is] );
             h3[it]->SetBinContent(is+1, temp );
             h3[it]->SetBinError(is+1, err );
@@ -699,13 +726,13 @@ Calculate the Lambda/K0short ratio as well as the errors:
 
         h1[u]->SetStats(kFALSE);
         h1[u]->SetMarkerStyle(22);
-        h1[u]->SetAxisRange(1000,1000000000,"Y");
+        h1[u]->SetAxisRange(1,10000000,"Y");
         h1[u]->SetYTitle("#Events");
         h1[u]->SetXTitle("P^_{}_{T,V0} (GeV/c)");
 
         h2[u]->SetStats(kFALSE);
         h2[u]->SetMarkerStyle(22);
-        h2[u]->SetAxisRange(1000,1000000000,"Y");
+        h2[u]->SetAxisRange(1,10000000,"Y");
         h2[u]->SetYTitle("#Events");
         h2[u]->SetXTitle("P^_{}_{T,V0} (GeV/c)");
 

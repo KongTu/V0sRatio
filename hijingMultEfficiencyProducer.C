@@ -9,23 +9,22 @@ using namespace RooFit;
 void hijingMultEfficiencyProducer(){
 
 //HIJING:
-	/*TFile* file[8];
-	file[0] = new TFile("/Users/kongkong/2014Research/ROOT_file/HijingPbPb/HijingPbPb_TH3D_Nov18_0_35_2014.root");
-	file[1] = new TFile("/Users/kongkong/2014Research/ROOT_file/HijingPbPb/HijingPbPb_TH3D_Nov18_35_60_2014.root");
-	file[2] = new TFile("/Users/kongkong/2014Research/ROOT_file/HijingPbPb/HijingPbPb_TH3D_Nov18_60_90_2014.root");
-	file[3] = new TFile("/Users/kongkong/2014Research/ROOT_file/HijingPbPb/HijingPbPb_TH3D_Nov18_90_120_2014.root");
-	file[4] = new TFile("/Users/kongkong/2014Research/ROOT_file/HijingPbPb/HijingPbPb_TH3D_Nov18_120_150_2014.root");
-	file[5] = new TFile("/Users/kongkong/2014Research/ROOT_file/HijingPbPb/HijingPbPb_TH3D_Nov18_150_185_2014.root");
-	file[6] = new TFile("/Users/kongkong/2014Research/ROOT_file/HijingPbPb/HijingPbPb_TH3D_Nov18_185_220_2014.root");
-	file[7] = new TFile("/Users/kongkong/2014Research/ROOT_file/HijingPbPb/HijingPbPb_TH3D_Nov18_220plus_2014.root");
-	//file[8] = new TFile("/Users/kongkong/2014Research/ROOT_file/HijingPbPb/HijingPbPb_TH3D_Nov17_300_400_2014.root");
-	*/
+//
+/*
+PbPb
+ */
 
-	TFile* file[4];
-	file[0] = new TFile("/Users/kongkong/2014Research/ROOT_file/newHIJINGsample/HIJING_TH3D_Nov7_MultDependent_0_35_2014.root");
-	file[1] = new TFile("/Users/kongkong/2014Research/ROOT_file/newHIJINGsample/HIJING_TH3D_Nov7_MultDependent_35_60_2014.root");
-	file[2] = new TFile("/Users/kongkong/2014Research/ROOT_file/newHIJINGsample/HIJING_TH3D_Nov7_MultDependent_60_90_2014.root");
-	file[3] = new TFile("/Users/kongkong/2014Research/ROOT_file/newHIJINGsample/HIJING_TH3D_Nov7_MultDependent_90_120_2014.root");
+	TFile* file[8];
+	file[0] = new TFile("/Users/kongkong/2014Research/ROOT_file/Hijing_pPb_PbPb_comparison/HIJING_PbPb_TH3D_Nov24_eta_0_35_2014.root");
+	//file[1] = new TFile("/Users/kongkong/2014Research/ROOT_file/Hijing_pPb_PbPb_comparison/HIJING_PbPb_TH3D_Nov24_eta_35_60_2014.root");
+	//file[2] = new TFile("/Users/kongkong/2014Research/ROOT_file/Hijing_pPb_PbPb_comparison/HIJING_PbPb_TH3D_Nov24_eta_60_90_2014.root");
+	//file[3] = new TFile("/Users/kongkong/2014Research/ROOT_file/Hijing_pPb_PbPb_comparison/HIJING_PbPb_TH3D_Nov24_eta_90_120_2014.root");
+
+	//file[4] = new TFile("/Users/kongkong/2014Research/ROOT_file/Hijing_pPb_PbPb_comparison/HIJING_PbPb_TH3D_Nov24_eta_120_150_2014.root");
+	//file[5] = new TFile("/Users/kongkong/2014Research/ROOT_file/Hijing_pPb_PbPb_comparison/HIJING_PbPb_TH3D_Nov24_eta_150_185_2014.root");
+	//file[6] = new TFile("/Users/kongkong/2014Research/ROOT_file/Hijing_pPb_PbPb_comparison/HIJING_PbPb_TH3D_Nov24_eta_185_220_2014.root");
+	file[1] = new TFile("/Users/kongkong/2014Research/ROOT_file/Hijing_pPb_PbPb_comparison/HIJING_PbPb_TH3D_Dec1_eta_185plus_vertexreweighed_2014.root");
+
 
 	TH3D* ksHist[8];
 	TH3D* laHist[8];
@@ -34,24 +33,13 @@ void hijingMultEfficiencyProducer(){
 	TH3D* genksHist[8];
 	TH3D* genlaHist[8];
 
-	TH1D* vertexZ[8];
-
-	stringstream vertexName;
-
-	for(int mult = 0; mult < 4; mult++){
-
-		vertexName.str("");
-		vertexName << "vertexDistZ_";
-		vertexName << mult+1;
-
-		//vertexZ[mult] = new TH1D(vertexName.str().c_str(),vertexName.str().c_str(),100,-15,15);
+	for(int mult = 0; mult < 2; mult++){
 
 		ksHist[mult] = (TH3D*)file[mult]->Get("ana/InvMass_ks_underlying");
 		laHist[mult] = (TH3D*)file[mult]->Get("ana/InvMass_la_underlying");
 		genksHist[mult] = (TH3D*)file[mult]->Get("ana/genKS_underlying");
 		genlaHist[mult] = (TH3D*)file[mult]->Get("ana/genLA_underlying");
 		xiHist[mult] = (TH3D*)file[mult]->Get("ana/XiDaughter");
-		//vertexZ[mult] = (TH1D*)file[mult]->Get("ana/vertexDistZ");
 
 	}
 
@@ -71,16 +59,14 @@ void hijingMultEfficiencyProducer(){
     double la_ptbincenter[20] = {0.7,0.9,1.1,1.3,1.5,1.7,1.9,2.1,2.3,2.5,2.7,2.9,3.2,3.6,4.0,4.4,4.8,5.3,6.1,7.8};
     double la_binwidth[20] = {0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.4,0.4,0.4,0.4,0.4,0.6,1.0,2.4};
 
+    double etabins[] = {9,17,25,33,41,49,57};
     double rpybins[6] = {6,16,26,35,44,55};
-    double rpybinwidth[5] = {1.0,0.97,0.9,0.93,1.0};
 
     stringstream ksHistName;
     stringstream laHistName;
     stringstream xiHistName;
 
-
-	for(mult = 0; mult < 4; mult++){
-
+	for(mult = 0; mult < 2; mult++){
 
     	for (int pt = 0; pt < 28; pt++){
 
@@ -91,7 +77,7 @@ void hijingMultEfficiencyProducer(){
     		ksHistName << "_";
 	        ksHistName << pt;
 
-	        ks_mass[mult][pt] = ksHist[mult]->ProjectionZ( ksHistName.str().c_str(),27,35,ks_pTbinsBound[pt]+1,ks_pTbinsBound[pt+1] );
+	        ks_mass[mult][pt] = ksHist[mult]->ProjectionZ( ksHistName.str().c_str(),26,33,ks_pTbinsBound[pt]+1,ks_pTbinsBound[pt+1] );
 
 	        ksHistName.str("");
 
@@ -100,7 +86,7 @@ void hijingMultEfficiencyProducer(){
     		ksHistName << "_";
 	        ksHistName << pt;
 
-	        genks_mass[mult][pt] = genksHist[mult]->ProjectionZ( ksHistName.str().c_str(),27,35,ks_pTbinsBound[pt]+1,ks_pTbinsBound[pt+1] );
+	        genks_mass[mult][pt] = genksHist[mult]->ProjectionZ( ksHistName.str().c_str(),26,33,ks_pTbinsBound[pt]+1,ks_pTbinsBound[pt+1] );
 
     	}
 
@@ -119,8 +105,8 @@ void hijingMultEfficiencyProducer(){
 	        xiHistName << "_";
 	        xiHistName << pt;
 
-	        la_mass[mult][pt] = laHist[mult]->ProjectionZ( laHistName.str().c_str(),27,35,la_pTbinsBound[pt]+1,la_pTbinsBound[pt+1] );
-	        xiHist_mass[mult][pt] = xiHist[mult]->ProjectionZ( xiHistName.str().c_str(),27,35,la_pTbinsBound[pt]+1,la_pTbinsBound[pt+1] );
+	        la_mass[mult][pt] = laHist[mult]->ProjectionZ( laHistName.str().c_str(),26,33,la_pTbinsBound[pt]+1,la_pTbinsBound[pt+1] );
+	        xiHist_mass[mult][pt] = xiHist[mult]->ProjectionZ( xiHistName.str().c_str(),26,33,la_pTbinsBound[pt]+1,la_pTbinsBound[pt+1] );
 
 	  
 	        laHistName.str("");
@@ -130,16 +116,17 @@ void hijingMultEfficiencyProducer(){
 	        laHistName << "_";
 	        laHistName << pt;
 
-	        genla_mass[mult][pt] = genlaHist[mult]->ProjectionZ( laHistName.str().c_str(),27,35,la_pTbinsBound[pt]+1,la_pTbinsBound[pt+1] );
+	        genla_mass[mult][pt] = genlaHist[mult]->ProjectionZ( laHistName.str().c_str(),26,33,la_pTbinsBound[pt]+1,la_pTbinsBound[pt+1] );
 	   	
 	   	}
    
    }
 
+
    	int genksYield[8][28];
    	int genlaYield[8][20];
 
-   	for(mult = 0; mult < 4; mult++){
+   	for(mult = 0; mult < 2; mult++){
 
    		for( pt = 0; pt < 28; pt++){
 
@@ -154,52 +141,15 @@ void hijingMultEfficiencyProducer(){
 	   		
 	}
 
-/*
-GEN spectra distribution;
- */
-
-	TH1D* ksSpectra_gen[8];
-	TH1D* laSpectra_gen[8];
-
-	stringstream ksName;
-	stringstream laName;
-
-	for(mult = 0; mult < 4; mult++){
-
-		ksName.str("");
-		laName.str("");
-
-		ksName << "ksSpectra_hijing_gen_";
-		ksName << mult+1;
-
-		laName << "laSpectra_hijing_gen_";
-		laName << mult+1;
-
-		ksSpectra_gen[mult] = new TH1D(ksName.str().c_str(),ksName.str().c_str(),28,ks_ptbins);
-		laSpectra_gen[mult] = new TH1D(laName.str().c_str(),laName.str().c_str(),20,la_ptbins);
-
-		for(pt = 0; pt < 28; pt++){
-
-			ksSpectra_gen[mult]->SetBinContent(pt+1, genksYield[mult][pt]/(2*3.1415926*ks_binwidth[pt]*ks_ptbincenter[pt]*4.8 ));
-				ksSpectra_gen[mult]->SetBinError(pt+1, sqrt( genksYield[mult][pt] )/(2*3.1415926*ks_binwidth[pt]*ks_ptbincenter[pt]*4.8 ));
-
-		}
-
-		for(pt = 0; pt < 20; pt++){
-
-			laSpectra_gen[mult]->SetBinContent(pt+1, genlaYield[mult][pt]/(2*3.1415926*la_binwidth[pt]*la_ptbincenter[pt]*4.8 ));
-				laSpectra_gen[mult]->SetBinError(pt+1, sqrt( genlaYield[mult][pt] )/(2*3.1415926*la_binwidth[pt]*la_ptbincenter[pt]*4.8));
-
-		}
-	}
-
+	
    	double ksYield[8][28];
    	double laYield[8][20];
 
    	TCanvas* c1 = new TCanvas();
    	
+   	c1->Print("la_fit.pdf[");
 
-   	for(mult = 0; mult < 4; mult++){
+   	for(mult = 0; mult < 2; mult++){
 
    		for (pt = 0; pt < 28; pt++){
 
@@ -211,9 +161,12 @@ GEN spectra distribution;
 	
 			la_mass[mult][i]->Add( xiHist_mass[mult][i],-1 );
 	   			laYield[mult][i] = la_YieldCal( la_mass[mult][i] );
+	   			c1->Print("la_fit.pdf");
 	   	}
    	
    	}
+
+   	c1->Print("la_fit.pdf]");
 
   
 /**
@@ -226,7 +179,7 @@ GEN spectra distribution;
  	stringstream ks_effName;
  	stringstream la_effName;
 
- 	for(mult = 0; mult < 4; mult++){
+ 	for(mult = 0; mult < 2; mult++){
 
 		ks_effName.str("");
 		ks_effName << "ks_eff_mult_";
@@ -255,25 +208,13 @@ GEN spectra distribution;
 	}
 
 
-   	TFile f1("HIJING_4multBins_3rdYbins_pPb_10M_v13.root","new");
+   	TFile f1("HIJING_2multBins_3rdEta_PbPb_v17.root","new");
 
- 	for(mult = 0; mult < 4; mult++){
+ 	for(mult = 0; mult < 2; mult++){
 	   	
    		ks_eff_mult[mult]->Write();
    		la_eff_mult[mult]->Write();
    	}
-
-   	/*for(mult = 0; mult < 8; mult++){
-
-   		vertexZ[mult]->Write();
-   	}
-
-   	for(mult = 0; mult < 8; mult++){
-
-   		ksSpectra_gen[mult]->Write();
-   		laSpectra_gen[mult]->Write();
-   	}*/
-
 
 
 
